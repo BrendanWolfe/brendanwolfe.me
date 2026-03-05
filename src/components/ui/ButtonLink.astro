@@ -29,8 +29,20 @@ const variantClass = {
 }[variant];
 
 const linkClass = `rounded-md ${sizeClass} text-base font-semibold no-underline transition ${variantClass} ${className}`.trim();
+const umamiAttributes = {
+  ...(umamiEvent ? { 'data-umami-event': umamiEvent } : {}),
+  ...Object.fromEntries(
+    Object.entries(umamiEventData ?? {}).map(([key, value]) => [`data-umami-event-${key}`, value])
+  )
+};
 ---
 
-<ExternalLink href={href} external={external} class={linkClass} umamiEvent={umamiEvent} umamiEventData={umamiEventData}>
-  <slot />
-</ExternalLink>
+{external ? (
+  <ExternalLink href={href} class={linkClass} umamiEvent={umamiEvent} umamiEventData={umamiEventData}>
+    <slot />
+  </ExternalLink>
+) : (
+  <a href={href} class={linkClass} {...umamiAttributes}>
+    <slot />
+  </a>
+)}

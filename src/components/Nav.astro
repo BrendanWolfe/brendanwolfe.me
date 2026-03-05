@@ -37,13 +37,23 @@ const textLinkClass = 'font-sans text-base font-bold text-bw-sub no-underline tr
     </button>
     <nav aria-label="Primary navigation" class="max-[40rem]:hidden">
       <ul class="m-0 flex list-none items-center gap-4 p-0">
-        {items.map((item) => (
-          <li>
-            <ExternalLink class={textLinkClass} href={item.href} external={item.external}>
-              {item.label}
-            </ExternalLink>
-          </li>
-        ))}
+        {items.map((item) => {
+          const isExternal = item.external ?? /^https?:\/\//.test(item.href);
+
+          return (
+            <li>
+              {isExternal ? (
+                <ExternalLink class={textLinkClass} href={item.href}>
+                  {item.label}
+                </ExternalLink>
+              ) : (
+                <a class={textLinkClass} href={item.href}>
+                  {item.label}
+                </a>
+              )}
+            </li>
+          );
+        })}
         <li>
           <GitHubLink href={githubUrl} mode="icon" umamiLocation="nav-desktop" />
         </li>
@@ -71,22 +81,33 @@ const textLinkClass = 'font-sans text-base font-bold text-bw-sub no-underline tr
     </div>
     <nav aria-label="Mobile navigation">
       <ul class="m-0 flex list-none flex-col items-end gap-6 p-0 text-right">
-        {items.map((item) => (
-          <li>
-            <ExternalLink
-              class="mobile-nav-link font-sans text-2xl font-extrabold tracking-[0.02em] text-bw-heading no-underline transition-colors hover:text-bw-accent focus-visible:text-bw-accent"
-              href={item.href}
-              external={item.external}
-            >
-              {item.label}
-            </ExternalLink>
-          </li>
-        ))}
+        {items.map((item) => {
+          const isExternal = item.external ?? /^https?:\/\//.test(item.href);
+
+          return (
+            <li>
+              {isExternal ? (
+                <ExternalLink
+                  class="mobile-nav-link font-sans text-2xl font-extrabold tracking-[0.02em] text-bw-heading no-underline transition-colors hover:text-bw-accent focus-visible:text-bw-accent"
+                  href={item.href}
+                >
+                  {item.label}
+                </ExternalLink>
+              ) : (
+                <a
+                  class="mobile-nav-link font-sans text-2xl font-extrabold tracking-[0.02em] text-bw-heading no-underline transition-colors hover:text-bw-accent focus-visible:text-bw-accent"
+                  href={item.href}
+                >
+                  {item.label}
+                </a>
+              )}
+            </li>
+          );
+        })}
         <li>
           <ExternalLink
             class="mobile-nav-link font-sans text-2xl font-extrabold tracking-[0.02em] text-bw-heading no-underline transition-colors hover:text-bw-accent focus-visible:text-bw-accent"
             href={githubUrl}
-            external
             umamiEvent="github-link-click"
             umamiEventData={{ location: 'nav-mobile' }}
           >

@@ -1,7 +1,6 @@
 ---
 interface Props {
   href: string;
-  external?: boolean;
   class?: string;
   ariaLabel?: string;
   umamiEvent?: string;
@@ -10,7 +9,6 @@ interface Props {
 
 const {
   href,
-  external = /^https?:\/\//.test(href),
   class: className = '',
   ariaLabel,
   umamiEvent = undefined,
@@ -27,8 +25,8 @@ const umamiAttributes = {
 
 <a
   href={href}
-  target={external ? '_blank' : undefined}
-  rel={external ? 'noreferrer' : undefined}
+  target="_blank"
+  rel="noreferrer"
   class={className}
   aria-label={ariaLabel}
   {...umamiAttributes}
