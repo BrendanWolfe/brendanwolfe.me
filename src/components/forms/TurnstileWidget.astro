@@ -1,10 +1,17 @@
 ---
+import { getSecret } from 'astro:env/server';
+
 interface Props {
   action?: string;
   siteKey?: string;
 }
 
-const { action = 'contact_form', siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY } = Astro.props;
+const runtimeSiteKey = getSecret('PUBLIC_TURNSTILE_SITE_KEY');
+
+const {
+  action = 'contact_form',
+  siteKey = runtimeSiteKey ?? import.meta.env.PUBLIC_TURNSTILE_SITE_KEY
+} = Astro.props;
 ---
 
 {siteKey ? (

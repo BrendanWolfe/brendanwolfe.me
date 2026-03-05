@@ -31,7 +31,11 @@ const {
 
     <slot />
 
-    {withTurnstile && <TurnstileWidget action={turnstileAction} />}
+    {withTurnstile && (
+      <TurnstileWidget action={turnstileAction} server:defer>
+        <p slot="fallback" class="text-xs text-bw-body">Loading captcha challenge...</p>
+      </TurnstileWidget>
+    )}
 
     <p data-form-status class="min-h-5 text-sm text-bw-sub" role="status" aria-live="polite"></p>
 

@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer';
+import { getSecret } from 'astro:env/server';
 
 export interface ContactEmailPayload {
   email: string;
@@ -22,13 +23,13 @@ function toBoolean(raw: string | undefined): boolean | undefined {
 }
 
 export async function sendContactEmail(payload: ContactEmailPayload): Promise<void> {
-  const host = import.meta.env.SMTP_HOST;
-  const port = toPortNumber(import.meta.env.SMTP_PORT);
-  const user = import.meta.env.SMTP_USER;
-  const pass = import.meta.env.SMTP_PASS;
-  const to = import.meta.env.CONTACT_TO_EMAIL;
-  const from = import.meta.env.CONTACT_FROM_EMAIL ?? user;
-  const secure = toBoolean(import.meta.env.SMTP_SECURE) ?? port === 465;
+  const host = getSecret('SMTP_HOST') ?? import.meta.env.SMTP_HOST;
+  const port = toPortNumber(getSecret('SMTP_PORT') ?? import.meta.env.SMTP_PORT);
+  const user = getSecret('SMTP_USER') ?? import.meta.env.SMTP_USER;
+  const pass = getSecret('SMTP_PASS') ?? import.meta.env.SMTP_PASS;
+  const to = getSecret('CONTACT_TO_EMAIL') ?? import.meta.env.CONTACT_TO_EMAIL;
+  const from = getSecret('CONTACT_FROM_EMAIL') ?? import.meta.env.CONTACT_FROM_EMAIL ?? user;
+  const secure = toBoolean(getSecret('SMTP_SECURE') ?? import.meta.env.SMTP_SECURE) ?? port === 465;
 
   if (!host || !user || !pass || !to || !from) {
     throw new Error('SMTP environment variables are incomplete.');
