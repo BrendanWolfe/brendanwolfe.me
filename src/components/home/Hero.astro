@@ -2,7 +2,6 @@
 import siteSettings from '../../content/site-settings.json';
 
 const resumeUrl = siteSettings.resumeUrl;
-const resumeIsExternal = resumeUrl.startsWith('http');
 ---
 
 <section class="pt-0 pb-4 md:pt-1 md:pb-4">
@@ -17,8 +16,7 @@ const resumeIsExternal = resumeUrl.startsWith('http');
   <div class="mt-6 flex flex-wrap gap-3">
     <a
       href={resumeUrl}
-      target={resumeIsExternal ? '_blank' : undefined}
-      rel={resumeIsExternal ? 'noreferrer' : undefined}
+      target="_blank"
       class="rounded-md bg-bw-accent px-4 py-2 text-base font-semibold text-bw-bg no-underline transition hover:bg-bw-accent-hover"
     >
       Download Resume
