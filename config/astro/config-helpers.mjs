@@ -1,17 +1,6 @@
 // @ts-check
 
 /**
- * @param {string | undefined} raw
- */
-export function toBoolean(raw) {
-  if (!raw) {
-    return undefined;
-  }
-
-  return ['1', 'true', 'yes', 'on'].includes(raw.toLowerCase());
-}
-
-/**
  * @param {string | undefined} siteUrlEnv
  */
 export function getSiteUrl(siteUrlEnv) {
