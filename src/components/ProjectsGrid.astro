@@ -1,6 +1,8 @@
 ---
-import projects from '../content/projects.json';
 import ProjectCard from './ProjectCard.astro';
+import { getProjects } from '../lib/content';
+
+const projects = await getProjects();
 ---
 
 <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-3">

@@ -1,6 +1,7 @@
 ---
-import siteSettings from '../../content/site-settings.json';
+import { getSiteSettings } from '../../lib/content';
 
+const siteSettings = await getSiteSettings();
 const resumeUrl = siteSettings.resumeUrl;
 ---
 
@@ -17,6 +18,7 @@ const resumeUrl = siteSettings.resumeUrl;
     <a
       href={resumeUrl}
       target="_blank"
+      rel="noreferrer"
       class="rounded-md bg-bw-accent px-4 py-2 text-base font-semibold text-bw-bg no-underline transition hover:bg-bw-accent-hover"
     >
       Download Resume
