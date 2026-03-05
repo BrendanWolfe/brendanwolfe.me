@@ -2,4 +2,4 @@
 
 ## Astro Docs MCP
 
-Always use the astro docs mcp tool to search for relevant info and best practices
+The astro docs mcp provides you with a tool to search the astro docs. Use it when needed to get astro best practices and documentation.
