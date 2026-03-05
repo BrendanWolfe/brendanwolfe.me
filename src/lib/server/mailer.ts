@@ -3,6 +3,7 @@ import { getSecret } from 'astro:env/server';
 
 export interface ContactEmailPayload {
   email: string;
+  subject: string;
   message: string;
   name: string;
   clientIp: string;
@@ -58,7 +59,7 @@ export async function sendContactEmail(payload: ContactEmailPayload): Promise<vo
     from,
     to,
     replyTo: payload.email,
-    subject: `New contact form message from ${payload.name}`,
+    subject: payload.subject,
     text
   });
 }

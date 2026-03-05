@@ -133,6 +133,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     await sendContactEmail({
       name: input.name,
       email: input.email,
+      subject: `brendanwolfe.me Contact Form: ${input.name}`,
       message: input.message,
       clientIp: ip,
       userAgent: request.headers.get('user-agent') ?? 'unknown'
