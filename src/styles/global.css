@@ -1,1 +1,30 @@
 @import "tailwindcss";
+
+@theme {
+  --color-bw-bg: #151a22;
+  --color-bw-surface: #1a2130;
+  --color-bw-surface-hover: #1e2738;
+  --color-bw-border: #232b38;
+  --color-bw-accent: #5b9bd5;
+  --color-bw-accent-hover: #8ebed8;
+  --color-bw-heading: #c8d6e0;
+  --color-bw-sub: #b0c4d8;
+  --color-bw-body: #6a8aa0;
+  --color-bw-muted: #4a5a6a;
+  --color-bw-skill-bg: #1c2430;
+  --color-bw-skill-text: #6a8aa0;
+
+  --font-sans: "DM Sans", "Segoe UI", sans-serif;
+  --font-display: "Manrope", "Segoe UI", sans-serif;
+}
+
+html {
+  font-size: 17px;
+  scroll-behavior: smooth;
+}
+
+@media (max-width: 40rem) {
+  html {
+    font-size: 16px;
+  }
+}
