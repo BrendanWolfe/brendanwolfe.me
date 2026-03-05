@@ -11,6 +11,9 @@
   },
   "dependencies": {
     "@astrojs/vue": "^5.1.4",
+    "@fontsource-variable/dm-sans": "^5.2.8",
+    "@fontsource-variable/instrument-sans": "^5.2.8",
+    "@fontsource-variable/outfit": "^5.2.8",
     "@tailwindcss/vite": "^4.2.1",
     "astro": "^5.17.1",
     "tailwindcss": "^4.2.1",

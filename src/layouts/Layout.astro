@@ -46,16 +46,10 @@ const ogImageUrl = ogImage.startsWith('http') ? ogImage : new URL(ogImage, Astro
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Manrope:wght@500;700;800&display=swap"
-    />
     {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
     <title>{pageTitle}</title>
   </head>
-  <body class="min-h-screen bg-[radial-gradient(circle_at_0%_0%,#1f2b3d_0%,#151a22_55%)] font-sans leading-relaxed text-bw-body">
+  <body class="min-h-screen bg-[radial-gradient(circle_at_0%_0%,#1f2b3d_0%,#151a22_55%)] font-body leading-relaxed text-bw-body">
     <a
       class="absolute -left-2499.75 top-0 z-1000 rounded-md bg-bw-accent px-3.5 py-2.5 font-bold text-bw-bg no-underline focus-visible:left-4 focus-visible:top-4"
       href="#main-content"
