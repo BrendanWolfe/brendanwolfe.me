@@ -33,8 +33,10 @@ Copy `.env.example` and set:
 - `SMTP_SECURE`
 - `CONTACT_TO_EMAIL`
 - `CONTACT_FROM_EMAIL` (optional)
-- `UMAMI_SCRIPT` (optional, e.g. `https://umami.bwaz.app/script.js`)
+- `UMAMI_SCRIPT` (optional upstream tracker URL, e.g. `https://umami.bwaz.app/script.js`)
 - `UMAMI_WEBSITE_ID` (optional)
+
+When Umami variables are set, the site serves the tracker from `/stats.js` and proxies event collection through `/api/event`.
 
 ### Netlify
 
