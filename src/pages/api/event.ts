@@ -1,18 +1,29 @@
 import type { APIRoute } from 'astro';
-import { getSecret } from 'astro:env/server';
+import { UMAMI_SCRIPT } from 'astro:env/server';
+import { checkEventRateLimit } from '../../lib/server/rateLimit';
 
 export const prerender = false;
-
-function getUmamiScriptUrl(): string | undefined {
-  return getSecret('UMAMI_SCRIPT') ?? import.meta.env.UMAMI_SCRIPT;
-}
+const MAX_EVENT_BODY_BYTES = 32 * 1024;
 
 function getUpstreamSendUrl(scriptUrl: string): string {
   return new URL('/api/send', scriptUrl).toString();
 }
 
+function getClientIp(request: Request, clientAddress?: string): string {
+  if (clientAddress) {
+    return clientAddress;
+  }
+
+  const forwardedFor = request.headers.get('x-forwarded-for');
+  if (!forwardedFor) {
+    return 'unknown';
+  }
+
+  return forwardedFor.split(',')[0]?.trim() || 'unknown';
+}
+
 export const POST: APIRoute = async ({ request, clientAddress }) => {
-  const scriptUrl = getUmamiScriptUrl();
+  const scriptUrl = UMAMI_SCRIPT;
 
   if (!scriptUrl) {
     return new Response(JSON.stringify({ ok: false }), {
@@ -24,8 +35,52 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     });
   }
 
+  const requestContentType = request.headers.get('content-type')?.toLowerCase() ?? '';
+  if (!requestContentType.startsWith('application/json')) {
+    return new Response(JSON.stringify({ ok: false, message: 'Unsupported content type.' }), {
+      status: 415,
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+        'Cache-Control': 'no-store'
+      }
+    });
+  }
+
+  const contentLengthRaw = request.headers.get('content-length');
+  if (contentLengthRaw && Number(contentLengthRaw) > MAX_EVENT_BODY_BYTES) {
+    return new Response(JSON.stringify({ ok: false, message: 'Payload too large.' }), {
+      status: 413,
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+        'Cache-Control': 'no-store'
+      }
+    });
+  }
+
+  const clientIp = getClientIp(request, clientAddress);
+  const rateLimit = checkEventRateLimit(clientIp);
+  if (!rateLimit.allowed) {
+    return new Response(JSON.stringify({ ok: false, message: 'Too many events.' }), {
+      status: 429,
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+        'Cache-Control': 'no-store',
+        'Retry-After': String(rateLimit.retryAfterSeconds ?? 60)
+      }
+    });
+  }
+
   const upstreamUrl = getUpstreamSendUrl(scriptUrl);
   const body = await request.text();
+  if (body.length > MAX_EVENT_BODY_BYTES) {
+    return new Response(JSON.stringify({ ok: false, message: 'Payload too large.' }), {
+      status: 413,
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+        'Cache-Control': 'no-store'
+      }
+    });
+  }
 
   const headers = new Headers();
   headers.set('Accept', 'application/json');
@@ -36,10 +91,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     headers.set('User-Agent', userAgent);
   }
 
-  const forwardedFor = request.headers.get('x-forwarded-for') ?? clientAddress;
-  if (forwardedFor) {
-    headers.set('X-Forwarded-For', forwardedFor);
-  }
+  headers.set('X-Forwarded-For', clientIp);
 
   const umamiCache = request.headers.get('x-umami-cache');
   if (umamiCache) {
@@ -64,12 +116,12 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   }
 
   const responseBody = await upstreamResponse.text();
-  const contentType = upstreamResponse.headers.get('content-type') ?? 'application/json; charset=utf-8';
+  const responseContentType = upstreamResponse.headers.get('content-type') ?? 'application/json; charset=utf-8';
 
   return new Response(responseBody, {
     status: upstreamResponse.status,
     headers: {
-      'Content-Type': contentType,
+      'Content-Type': responseContentType,
       'Cache-Control': 'no-store'
     }
   });

@@ -1,19 +1,22 @@
 import type { APIRoute } from 'astro';
-import { getSecret } from 'astro:env/server';
+import { UMAMI_SCRIPT, UMAMI_WEBSITE_ID } from 'astro:env/server';
 
 export const prerender = false;
 
 const LOCAL_EVENT_PATH = '/api/event';
 
-function getUmamiScriptUrl(): string | undefined {
-  return getSecret('UMAMI_SCRIPT') ?? import.meta.env.UMAMI_SCRIPT;
-}
-
 export const GET: APIRoute = async () => {
-  const scriptUrl = getUmamiScriptUrl();
+  const scriptUrl = UMAMI_SCRIPT;
+  const websiteId = UMAMI_WEBSITE_ID;
 
-  if (!scriptUrl) {
-    return new Response('', { status: 404 });
+  if (!scriptUrl || !websiteId) {
+    return new Response('// analytics disabled\n', {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/javascript; charset=utf-8',
+        'Cache-Control': 'no-store'
+      }
+    });
   }
 
   let upstreamResponse: Response;
@@ -32,7 +35,8 @@ export const GET: APIRoute = async () => {
   }
 
   const upstreamScript = await upstreamResponse.text();
-  const proxiedScript = upstreamScript.replace(/\/api\/send/g, LOCAL_EVENT_PATH);
+  const bootstrap = `;(()=>{const s=document.currentScript;if(s){s.setAttribute('data-website-id',${JSON.stringify(websiteId)});s.setAttribute('data-host-url','/');}})();\n`;
+  const proxiedScript = `${bootstrap}${upstreamScript.replace(/\/api\/send/g, LOCAL_EVENT_PATH)}`;
 
   return new Response(proxiedScript, {
     status: 200,

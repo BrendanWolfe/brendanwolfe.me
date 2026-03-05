@@ -1,4 +1,4 @@
-import { getSecret } from 'astro:env/server';
+import { TURNSTILE_EXPECTED_HOSTNAME, TURNSTILE_SECRET_KEY } from 'astro:env/server';
 
 interface VerifyTurnstileInput {
   token: string;
@@ -15,7 +15,7 @@ interface TurnstileVerifyResponse {
 }
 
 export async function verifyTurnstile(input: VerifyTurnstileInput): Promise<{ ok: true } | { ok: false; message: string }> {
-  const secret = getSecret('TURNSTILE_SECRET_KEY') ?? import.meta.env.TURNSTILE_SECRET_KEY;
+  const secret = TURNSTILE_SECRET_KEY;
 
   if (!secret) {
     return { ok: false, message: 'Turnstile server secret is not configured.' };
@@ -52,7 +52,7 @@ export async function verifyTurnstile(input: VerifyTurnstileInput): Promise<{ ok
     return { ok: false, message: 'Captcha action mismatch.' };
   }
 
-  const expectedHostname = getSecret('TURNSTILE_EXPECTED_HOSTNAME') ?? import.meta.env.TURNSTILE_EXPECTED_HOSTNAME;
+  const expectedHostname = TURNSTILE_EXPECTED_HOSTNAME;
   if (expectedHostname && payload.hostname && payload.hostname !== expectedHostname) {
     return { ok: false, message: 'Captcha hostname mismatch.' };
   }
