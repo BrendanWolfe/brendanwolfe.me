@@ -102,7 +102,7 @@ const hasUmami = Boolean(umamiWebsiteId && umamiHostUrl);
       <button
         id="mobile-back-to-top"
         type="button"
-        class="pointer-events-none fixed bottom-5 right-5 z-50 inline-flex h-11 w-11 items-center justify-center rounded-full border border-bw-border bg-bw-surface/90 text-bw-heading opacity-0 shadow-lg backdrop-blur transition-opacity duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bw-accent"
+        class="pointer-events-none fixed bottom-5 right-5 z-50 inline-flex h-11 w-11 items-center justify-center rounded-full border border-bw-border bg-bw-surface/90 text-bw-heading opacity-0 shadow-lg backdrop-blur transition-[bottom,opacity] duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bw-accent"
         aria-label="Back to top"
         aria-hidden="true"
       >
@@ -121,13 +121,28 @@ const hasUmami = Boolean(umamiWebsiteId && umamiHostUrl);
         }
 
         const threshold = 320;
+        const baseBottom = 20;
+        const footerClearance = 4;
         const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+        const footer = document.querySelector('footer');
+
+        const updateBottomOffset = () => {
+          if (!(footer instanceof HTMLElement)) {
+            button.style.bottom = `${baseBottom}px`;
+            return;
+          }
+
+          const footerRect = footer.getBoundingClientRect();
+          const footerOverlap = Math.max(0, window.innerHeight - footerRect.top);
+          button.style.bottom = `${baseBottom + footerOverlap + footerClearance}px`;
+        };
 
         const updateVisibility = () => {
           const visible = window.scrollY > threshold;
           button.classList.toggle('opacity-0', !visible);
           button.classList.toggle('pointer-events-none', !visible);
           button.setAttribute('aria-hidden', visible ? 'false' : 'true');
+          updateBottomOffset();
         };
 
         button.addEventListener('click', () => {
