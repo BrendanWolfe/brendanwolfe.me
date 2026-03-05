@@ -1,46 +1,36 @@
-# Astro Starter Kit: Basics
+# brendanwolfe.me
 
-```sh
-npm create astro@latest -- --template basics
-```
+Personal portfolio site built with Astro.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Commands
 
-## 🚀 Project Structure
+| Command | Action |
+| :--- | :--- |
+| `npm install` | Install dependencies |
+| `npm run dev` | Start local development server |
+| `npm run build` | Build static output to `dist/` |
+| `npm run preview` | Preview production build locally |
+| `npm run astro -- --help` | Show Astro CLI help |
 
-Inside of your Astro project, you'll see the following folders and files:
+## Deployment
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
-```
+1. Install dependencies with `npm ci` (or `npm install`).
+2. Build the site with `npm run build`.
+3. Deploy the generated `dist/` directory to your host.
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+### Netlify
 
-## 🧞 Commands
+- Build command: `npm run build`
+- Publish directory: `dist`
 
-All commands are run from the root of the project, from a terminal:
+### Vercel
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+- Framework preset: Astro
+- Build command: `npm run build`
+- Output directory: `dist`
 
-## 👀 Want to learn more?
+### Cloudflare Pages
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- Build command: `npm run build`
+- Build output directory: `dist`
+- Node compatibility: enable if your project integrations require it
