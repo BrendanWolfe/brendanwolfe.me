@@ -1,13 +1,24 @@
 ---
+import TurnstileWidget from './TurnstileWidget.astro';
+
 interface Props {
   action: string;
+  ariaLabel?: string;
   submitLabel?: string;
+  turnstileAction?: string;
+  withTurnstile?: boolean;
 }
 
-const { action, submitLabel = 'Send Message' } = Astro.props;
+const {
+  action,
+  ariaLabel = 'Form',
+  submitLabel = 'Send Message',
+  turnstileAction = 'contact_form',
+  withTurnstile = true
+} = Astro.props;
 ---
 
-<form aria-label="Contact form" class="w-full text-left" method="POST" action={action} data-base-form>
+<form aria-label={ariaLabel} class="w-full text-left" method="POST" action={action} data-base-form>
   <div class="grid gap-3">
     <div class="absolute -left-[10000px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
       <label>
@@ -19,6 +30,8 @@ const { action, submitLabel = 'Send Message' } = Astro.props;
     <input type="hidden" name="formLoadedAt" data-form-loaded-at />
 
     <slot />
+
+    {withTurnstile && <TurnstileWidget action={turnstileAction} />}
 
     <p data-form-status class="min-h-5 text-sm text-bw-sub" role="status" aria-live="polite"></p>
 

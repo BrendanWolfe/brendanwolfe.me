@@ -1,9 +1,8 @@
 ---
 import BaseForm from './forms/BaseForm.astro';
-import TurnstileWidget from './forms/TurnstileWidget.astro';
 ---
 
-<BaseForm action="/api/contact">
+<BaseForm action="/api/contact" ariaLabel="Contact form" turnstileAction="contact_form">
   <label class="grid gap-1.5 text-base font-medium text-bw-heading">
     Name
     <input
@@ -40,6 +39,4 @@ import TurnstileWidget from './forms/TurnstileWidget.astro';
       class="w-full rounded-md border border-bw-border bg-bw-surface/60 px-3 py-2 text-bw-heading outline-none transition-colors focus:border-bw-accent"
     ></textarea>
   </label>
-
-  <TurnstileWidget action="contact_form" />
 </BaseForm>
