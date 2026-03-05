@@ -1,15 +1,12 @@
 import type { APIRoute } from 'astro';
-import { UMAMI_SCRIPT, UMAMI_WEBSITE_ID } from 'astro:env/server';
+import { UMAMI_SCRIPT } from 'astro:env/server';
 
 export const prerender = false;
 
-const LOCAL_EVENT_PATH = '/api/event';
-
 export const GET: APIRoute = async () => {
   const scriptUrl = UMAMI_SCRIPT;
-  const websiteId = UMAMI_WEBSITE_ID;
 
-  if (!scriptUrl || !websiteId) {
+  if (!scriptUrl) {
     return new Response('// analytics disabled\n', {
       status: 200,
       headers: {
@@ -35,10 +32,8 @@ export const GET: APIRoute = async () => {
   }
 
   const upstreamScript = await upstreamResponse.text();
-  const bootstrap = `;(()=>{const s=document.currentScript;if(s){s.setAttribute('data-website-id',${JSON.stringify(websiteId)});s.setAttribute('data-host-url','/');}})();\n`;
-  const proxiedScript = `${bootstrap}${upstreamScript.replace(/\/api\/send/g, LOCAL_EVENT_PATH)}`;
 
-  return new Response(proxiedScript, {
+  return new Response(upstreamScript, {
     status: 200,
     headers: {
       'Content-Type': 'application/javascript; charset=utf-8',

@@ -36,7 +36,7 @@ Copy `.env.example` and set:
 - `UMAMI_SCRIPT` (optional upstream tracker URL, e.g. `https://umami.bwaz.app/script.js`)
 - `UMAMI_WEBSITE_ID` (optional)
 
-When Umami variables are set, the site serves the tracker from `/stats.js` and proxies event collection through `/api/event`.
+When Umami variables are set, the site serves the tracker from `/stats.js` and sends events directly to your Umami host via `data-host-url`.
 
 ### Netlify
 

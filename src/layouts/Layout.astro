@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import { UMAMI_SCRIPT, UMAMI_WEBSITE_ID } from 'astro:env/server';
 import { getSiteSettings } from '../lib/content';
 
 interface Props {
@@ -39,6 +40,14 @@ const pageTitle = title.includes('Brendan Wolfe') ? title : `${title} | Brendan 
 const canonicalUrl = canonical ?? Astro.url?.toString();
 const ogImageUrl = ogImage.startsWith('http') ? ogImage : new URL(ogImage, Astro.url).toString();
 const umamiProxyScript = '/stats.js';
+const umamiHostUrl = (() => {
+  try {
+    return UMAMI_SCRIPT ? new URL(UMAMI_SCRIPT).origin : '';
+  } catch {
+    return '';
+  }
+})();
+const hasUmami = Boolean(UMAMI_WEBSITE_ID && umamiHostUrl);
 ---
 
 <!doctype html>
@@ -62,7 +71,15 @@ const umamiProxyScript = '/stats.js';
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
-    <script is:inline defer src={umamiProxyScript}></script>
+    {hasUmami && (
+      <script
+        is:inline
+        defer
+        src={umamiProxyScript}
+        data-website-id={UMAMI_WEBSITE_ID}
+        data-host-url={umamiHostUrl}
+      ></script>
+    )}
     <title>{pageTitle}</title>
   </head>
   <body class="min-h-screen bg-[radial-gradient(circle_at_0%_0%,#1f2b3d_0%,#151a22_55%)] font-body leading-relaxed text-bw-body">

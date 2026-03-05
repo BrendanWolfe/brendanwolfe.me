@@ -111,29 +111,3 @@ export function checkContactRateLimit(clientIp: string, email: string): RateLimi
     allowed: true
   };
 }
-
-export function checkEventRateLimit(clientIp: string): RateLimitResult {
-  const rules: RateLimitRule[] = [
-    {
-      key: `event-ip-short:${clientIp}`,
-      max: 120,
-      windowMs: 60 * 1000
-    },
-    {
-      key: `event-ip-long:${clientIp}`,
-      max: 3000,
-      windowMs: 60 * 60 * 1000
-    }
-  ];
-
-  for (const rule of rules) {
-    const result = takeRateLimit(rule);
-    if (!result.allowed) {
-      return result;
-    }
-  }
-
-  return {
-    allowed: true
-  };
-}
