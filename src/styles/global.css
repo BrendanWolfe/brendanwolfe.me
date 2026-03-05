@@ -4,18 +4,18 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bw-bg: #151a22;
-  --color-bw-surface: #1a2130;
-  --color-bw-surface-hover: #1e2738;
-  --color-bw-border: #232b38;
-  --color-bw-accent: #5b9bd5;
-  --color-bw-accent-hover: #8ebed8;
-  --color-bw-heading: #c8d6e0;
-  --color-bw-sub: #b0c4d8;
-  --color-bw-body: #6a8aa0;
-  --color-bw-muted: #4a5a6a;
-  --color-bw-skill-bg: #1c2430;
-  --color-bw-skill-text: #6a8aa0;
+  --color-bw-bg: var(--color-zinc-900);
+  --color-bw-surface: var(--color-gray-800);
+  --color-bw-surface-hover: var(--color-slate-800);
+  --color-bw-border: var(--color-gray-700);
+  --color-bw-accent: var(--color-sky-500);
+  --color-bw-accent-hover: var(--color-blue-300);
+  --color-bw-heading: var(--color-slate-300);
+  --color-bw-sub: var(--color-slate-300);
+  --color-bw-body: var(--color-slate-400);
+  --color-bw-muted: var(--color-slate-400);
+  --color-bw-skill-bg: var(--color-gray-800);
+  --color-bw-skill-text: var(--color-slate-400);
 
   --font-body: "Instrument Sans Variable", "Instrument Sans", "Segoe UI", sans-serif;
   --font-sans: "DM Sans Variable", "DM Sans", "Segoe UI", sans-serif;
@@ -25,7 +25,6 @@
 
 html {
   font-size: 17px;
-  scroll-behavior: smooth;
 }
 
 h1,
@@ -40,5 +39,17 @@ h6 {
 @media (max-width: 40rem) {
   html {
     font-size: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
 }
