@@ -1,36 +1,45 @@
-<form aria-label="Contact form" class="w-full text-left">
-  <div class="grid gap-3">
-    <label class="grid gap-1.5 text-base font-medium text-bw-heading">
-      Name
-      <input
-        name="name"
-        type="text"
-        autocomplete="name"
-        class="w-full rounded-md border border-bw-border bg-bw-surface/60 px-3 py-2 text-bw-heading outline-none transition-colors focus:border-bw-accent"
-      />
-    </label>
+---
+import BaseForm from './forms/BaseForm.astro';
+import TurnstileWidget from './forms/TurnstileWidget.astro';
+---
 
-    <label class="grid gap-1.5 text-base font-medium text-bw-heading">
-      Email
-      <input
-        name="email"
-        type="email"
-        autocomplete="email"
-        class="w-full rounded-md border border-bw-border bg-bw-surface/60 px-3 py-2 text-bw-heading outline-none transition-colors focus:border-bw-accent"
-      />
-    </label>
+<BaseForm action="/api/contact">
+  <label class="grid gap-1.5 text-base font-medium text-bw-heading">
+    Name
+    <input
+      name="name"
+      type="text"
+      autocomplete="name"
+      required
+      minlength="2"
+      maxlength="120"
+      class="w-full rounded-md border border-bw-border bg-bw-surface/60 px-3 py-2 text-bw-heading outline-none transition-colors focus:border-bw-accent"
+    />
+  </label>
 
-    <label class="grid gap-1.5 text-base font-medium text-bw-heading">
-      Message
-      <textarea
-        name="message"
-        rows="4"
-        class="w-full rounded-md border border-bw-border bg-bw-surface/60 px-3 py-2 text-bw-heading outline-none transition-colors focus:border-bw-accent"
-      ></textarea>
-    </label>
+  <label class="grid gap-1.5 text-base font-medium text-bw-heading">
+    Email
+    <input
+      name="email"
+      type="email"
+      autocomplete="email"
+      required
+      maxlength="254"
+      class="w-full rounded-md border border-bw-border bg-bw-surface/60 px-3 py-2 text-bw-heading outline-none transition-colors focus:border-bw-accent"
+    />
+  </label>
 
-    <button type="submit" class="mt-1 w-fit rounded-md bg-bw-accent px-4 py-2 text-base font-semibold text-bw-bg transition hover:bg-bw-accent-hover">
-      Send Message
-    </button>
-  </div>
-</form>
+  <label class="grid gap-1.5 text-base font-medium text-bw-heading">
+    Message
+    <textarea
+      name="message"
+      rows="5"
+      required
+      minlength="10"
+      maxlength="2000"
+      class="w-full rounded-md border border-bw-border bg-bw-surface/60 px-3 py-2 text-bw-heading outline-none transition-colors focus:border-bw-accent"
+    ></textarea>
+  </label>
+
+  <TurnstileWidget action="contact_form" />
+</BaseForm>

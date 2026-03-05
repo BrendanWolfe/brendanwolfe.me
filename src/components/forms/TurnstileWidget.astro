@@ -1,0 +1,18 @@
+---
+interface Props {
+  action?: string;
+  siteKey?: string;
+}
+
+const { action = 'contact_form', siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY } = Astro.props;
+---
+
+{siteKey ? (
+  <div class="grid gap-2">
+    <div class="cf-turnstile" data-sitekey={siteKey} data-action={action}></div>
+    <p class="text-xs text-bw-body">Protected by Cloudflare Turnstile.</p>
+    <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+  </div>
+) : (
+  <p class="text-sm text-red-300">Turnstile is not configured. Set `PUBLIC_TURNSTILE_SITE_KEY`.</p>
+)}

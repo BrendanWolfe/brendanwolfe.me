@@ -16,21 +16,36 @@ Personal portfolio site built with Astro.
 
 1. Install dependencies with `npm ci` (or `npm install`).
 2. Build the site with `npm run build`.
-3. Deploy the generated `dist/` directory to your host.
+3. Run the Astro Node entrypoint (`node dist/server/entry.mjs`) in your container/host.
+
+## Contact Form Environment Variables
+
+Copy `.env.example` and set:
+
+- `PUBLIC_TURNSTILE_SITE_KEY`
+- `TURNSTILE_SECRET_KEY`
+- `TURNSTILE_EXPECTED_HOSTNAME` (optional)
+- `SMTP_HOST`
+- `SMTP_PORT`
+- `SMTP_USER`
+- `SMTP_PASS`
+- `SMTP_SECURE`
+- `CONTACT_TO_EMAIL`
+- `CONTACT_FROM_EMAIL` (optional)
 
 ### Netlify
 
 - Build command: `npm run build`
-- Publish directory: `dist`
+- Publish directory: `dist/client` (for fully static deployments only)
 
 ### Vercel
 
 - Framework preset: Astro
 - Build command: `npm run build`
-- Output directory: `dist`
+- Output directory: `dist/client` (for fully static deployments only)
 
 ### Cloudflare Pages
 
 - Build command: `npm run build`
-- Build output directory: `dist`
+- Build output directory: `dist/client` (for fully static deployments only)
 - Node compatibility: enable if your project integrations require it
