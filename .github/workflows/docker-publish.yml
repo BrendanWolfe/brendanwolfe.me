@@ -12,6 +12,7 @@ permissions:
 env:
   REGISTRY_HOST: ${{ secrets.GITEA_REGISTRY }}
   IMAGE_NAME: ${{ github.repository }}
+  DOKPLOY_WEBHOOK_URL: ${{ secrets.DOKPLOY_WEBHOOK }}
 
 jobs:
   docker:
@@ -42,8 +43,8 @@ jobs:
             ${{ env.REGISTRY_HOST }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
 
       - name: Trigger Dokploy deploy webhook
-        if: ${{ success() && secrets.DOKPLOY_WEBHOOK != '' }}
+        if: ${{ success() && env.DOKPLOY_WEBHOOK_URL != '' }}
         env:
-          WEBHOOK_URL: ${{ secrets.DOKPLOY_WEBHOOK }}
+          WEBHOOK_URL: ${{ env.DOKPLOY_WEBHOOK_URL }}
         run: |
           curl -fsS -X POST "$WEBHOOK_URL" || curl -fsS "$WEBHOOK_URL"
