@@ -78,7 +78,48 @@ const ogImageUrl = ogImage.startsWith('http') ? ogImage : new URL(ogImage, Astro
       >
         <slot />
       </main>
+      <button
+        id="mobile-back-to-top"
+        type="button"
+        class="pointer-events-none fixed bottom-5 right-5 z-50 inline-flex h-11 w-11 items-center justify-center rounded-full border border-bw-border bg-bw-surface/90 text-bw-heading opacity-0 shadow-lg backdrop-blur transition-opacity duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bw-accent"
+        aria-label="Back to top"
+        aria-hidden="true"
+      >
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round">
+          <path d="M12 19V5"></path>
+          <path d="M6 11L12 5L18 11"></path>
+        </svg>
+      </button>
       <Footer githubUrl={githubUrl} />
     </div>
+    <script is:inline>
+      (() => {
+        const button = document.querySelector('#mobile-back-to-top');
+        if (!(button instanceof HTMLButtonElement)) {
+          return;
+        }
+
+        const threshold = 320;
+        const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+        const updateVisibility = () => {
+          const visible = window.scrollY > threshold;
+          button.classList.toggle('opacity-0', !visible);
+          button.classList.toggle('pointer-events-none', !visible);
+          button.setAttribute('aria-hidden', visible ? 'false' : 'true');
+        };
+
+        button.addEventListener('click', () => {
+          window.scrollTo({
+            top: 0,
+            behavior: reducedMotionQuery.matches ? 'auto' : 'smooth'
+          });
+        });
+
+        window.addEventListener('scroll', updateVisibility, { passive: true });
+        window.addEventListener('resize', updateVisibility);
+        updateVisibility();
+      })();
+    </script>
   </body>
 </html>
