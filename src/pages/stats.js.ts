@@ -1,10 +1,10 @@
 import type { APIRoute } from 'astro';
-import { UMAMI_SCRIPT } from 'astro:env/server';
+import { getSiteSettings } from '../lib/content';
 
 export const prerender = false;
 
 export const GET: APIRoute = async () => {
-  const scriptUrl = UMAMI_SCRIPT;
+  const { umamiScript: scriptUrl } = await getSiteSettings();
 
   if (!scriptUrl) {
     return new Response('// analytics disabled\n', {

@@ -1,5 +1,8 @@
 {
+  "siteUrl": "https://brendanwolfe.me",
   "resumeUrl": "/resume.pdf",
   "navBrandText": "brendanwolfe.me",
-  "githubUrl": "https://github.com/brendanwolfe"
+  "githubUrl": "https://github.com/brendanwolfe",
+  "umamiScript": "https://umami.bwaz.app/script.js",
+  "umamiWebsiteId": "05480b6f-e36c-4862-b304-e1c2ed0708c1"
 }

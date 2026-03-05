@@ -2,7 +2,6 @@
 import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
-import { UMAMI_SCRIPT, UMAMI_WEBSITE_ID } from 'astro:env/server';
 import { getSiteSettings } from '../lib/content';
 
 interface Props {
@@ -29,25 +28,25 @@ const {
 
 let navBrandText = navBrandTextProp;
 let githubUrl = githubUrlProp;
+const siteSettings = await getSiteSettings();
 
-if (!navBrandText || !githubUrl) {
-  const siteSettings = await getSiteSettings();
-  navBrandText = navBrandText ?? siteSettings.navBrandText;
-  githubUrl = githubUrl ?? siteSettings.githubUrl;
-}
+navBrandText = navBrandText ?? siteSettings.navBrandText;
+githubUrl = githubUrl ?? siteSettings.githubUrl;
 
 const pageTitle = title.includes('Brendan Wolfe') ? title : `${title} | Brendan Wolfe`;
 const canonicalUrl = canonical ?? Astro.url?.toString();
 const ogImageUrl = ogImage.startsWith('http') ? ogImage : new URL(ogImage, Astro.url).toString();
 const umamiProxyScript = '/stats.js';
+const umamiWebsiteId = siteSettings.umamiWebsiteId;
+const umamiScript = siteSettings.umamiScript;
 const umamiHostUrl = (() => {
   try {
-    return UMAMI_SCRIPT ? new URL(UMAMI_SCRIPT).origin : '';
+    return umamiScript ? new URL(umamiScript).origin : '';
   } catch {
     return '';
   }
 })();
-const hasUmami = Boolean(UMAMI_WEBSITE_ID && umamiHostUrl);
+const hasUmami = Boolean(umamiWebsiteId && umamiHostUrl);
 ---
 
 <!doctype html>
@@ -72,11 +71,14 @@ const hasUmami = Boolean(UMAMI_WEBSITE_ID && umamiHostUrl);
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
     {hasUmami && (
+      <link rel="preload" href={umamiProxyScript} as="script" />
+    )}
+    {hasUmami && (
       <script
         is:inline
         defer
         src={umamiProxyScript}
-        data-website-id={UMAMI_WEBSITE_ID}
+        data-website-id={umamiWebsiteId}
         data-host-url={umamiHostUrl}
       ></script>
     )}

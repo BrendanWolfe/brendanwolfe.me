@@ -1,6 +1,6 @@
 // @ts-check
 import { defineConfig, envField } from 'astro/config';
-import { loadEnv } from 'vite';
+import { readFileSync } from 'node:fs';
 import { getAllowedDomainsFromSiteUrl, getSiteUrl } from './config/astro/config-helpers.mjs';
 
 import tailwindcss from '@tailwindcss/vite';
@@ -8,8 +8,8 @@ import node from '@astrojs/node';
 
 import vue from '@astrojs/vue';
 
-const env = loadEnv(process.env.NODE_ENV ?? 'development', process.cwd(), '');
-const siteUrl = getSiteUrl(env.SITE_URL);
+const siteSettings = JSON.parse(readFileSync(new URL('./src/content/site-settings.json', import.meta.url), 'utf8'));
+const siteUrl = getSiteUrl(siteSettings.siteUrl);
 const allowedDomainPatterns = getAllowedDomainsFromSiteUrl(siteUrl);
 
 // https://astro.build/config
@@ -18,11 +18,6 @@ export default defineConfig({
   output: 'static',
   env: {
     schema: {
-      SITE_URL: envField.string({
-        context: 'server',
-        access: 'public',
-        optional: true
-      }),
       PUBLIC_TURNSTILE_SITE_KEY: envField.string({
         context: 'server',
         access: 'public',
@@ -69,16 +64,6 @@ export default defineConfig({
         optional: true
       }),
       CONTACT_FROM_EMAIL: envField.string({
-        context: 'server',
-        access: 'public',
-        optional: true
-      }),
-      UMAMI_SCRIPT: envField.string({
-        context: 'server',
-        access: 'public',
-        optional: true
-      }),
-      UMAMI_WEBSITE_ID: envField.string({
         context: 'server',
         access: 'public',
         optional: true

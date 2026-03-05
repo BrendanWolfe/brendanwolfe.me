@@ -54,9 +54,12 @@ const siteSettings = defineCollection({
     parser: (text) => [{ id: 'site-settings', ...JSON.parse(text) }],
   }),
   schema: z.object({
+    siteUrl: z.string().url(),
     resumeUrl: z.string(),
     navBrandText: z.string(),
     githubUrl: z.string().url(),
+    umamiScript: z.string().url(),
+    umamiWebsiteId: z.string(),
   }),
 });
 

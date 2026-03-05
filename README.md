@@ -22,7 +22,6 @@ Personal portfolio site built with Astro.
 
 Copy `.env.example` and set:
 
-- `SITE_URL` (e.g. `https://brendanwolfe.me`; trusted forwarded hosts are derived from this value)
 - `PUBLIC_TURNSTILE_SITE_KEY`
 - `TURNSTILE_SECRET_KEY`
 - `TURNSTILE_EXPECTED_HOSTNAME` (optional)
@@ -33,10 +32,19 @@ Copy `.env.example` and set:
 - `SMTP_SECURE`
 - `CONTACT_TO_EMAIL`
 - `CONTACT_FROM_EMAIL` (optional)
-- `UMAMI_SCRIPT` (optional upstream tracker URL, e.g. `https://umami.bwaz.app/script.js`)
-- `UMAMI_WEBSITE_ID` (optional)
 
-When Umami variables are set, the site serves the tracker from `/stats.js` and sends events directly to your Umami host via `data-host-url`.
+## Site Settings
+
+`src/content/site-settings.json` is the source of truth for:
+
+- `siteUrl`
+- `navBrandText`
+- `resumeUrl`
+- `githubUrl`
+- `umamiScript`
+- `umamiWebsiteId`
+
+Umami is loaded via `/stats.js`, with `data-website-id` and `data-host-url` set from `site-settings.json` in the `<head>` script tag.
 
 ### Netlify
 
