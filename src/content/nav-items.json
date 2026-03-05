@@ -6,11 +6,5 @@
   {
     "label": "Contact",
     "href": "#contact"
-  },
-  {
-    "icon": "github",
-    "href": "https://github.com/brendanwolfe",
-    "ariaLabel": "GitHub",
-    "external": true
   }
 ]
