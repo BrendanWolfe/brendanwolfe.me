@@ -1,3 +1,10 @@
 [
-
+  {
+    "title": "Portfolio Site",
+    "description": "A fast, accessible personal portfolio built with Astro and Tailwind CSS.",
+    "image": "/logo-white.png",
+    "tags": ["Astro", "Tailwind CSS", "Accessibility"],
+    "liveUrl": "https://brendanwolfe.me",
+    "githubUrl": "https://github.com/brendanwolfe/brendanwolfe.me"
+  }
 ]
