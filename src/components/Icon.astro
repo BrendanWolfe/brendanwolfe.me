@@ -1,0 +1,20 @@
+---
+import githubIconRaw from '../assets/icons/github.svg?raw';
+
+type IconName = 'github';
+
+interface Props {
+  name: IconName;
+  class?: string;
+}
+
+const { name, class: className = 'h-4 w-4' } = Astro.props;
+
+const iconByName: Record<IconName, string> = {
+  github: githubIconRaw,
+};
+
+const svgMarkup = iconByName[name].replace('<svg', `<svg class="${className}"`);
+---
+
+<span class="inline-flex items-center justify-center" aria-hidden="true" set:html={svgMarkup}></span>
