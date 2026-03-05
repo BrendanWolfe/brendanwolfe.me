@@ -1,0 +1,54 @@
+---
+import navItems from '../content/nav-items.json';
+import siteSettings from '../content/site-settings.json';
+import Icon from './Icon.astro';
+
+type NavIcon = 'github';
+
+interface NavItem {
+  href: string;
+  label?: string;
+  icon?: NavIcon;
+  ariaLabel?: string;
+  external?: boolean;
+}
+
+const items = navItems as NavItem[];
+const navBrandText = siteSettings.navBrandText ?? 'brendanwolfe.me';
+const textLinkClass = 'text-base font-bold text-bw-sub no-underline transition-colors hover:text-bw-heading focus-visible:text-bw-heading';
+const iconLinkClass = 'inline-flex h-6 w-6 items-center justify-center leading-none text-bw-sub transition-colors hover:text-bw-heading focus-visible:text-bw-heading';
+---
+
+<header class="sticky top-0 z-40 border-b border-bw-border/90 bg-bw-bg/85 backdrop-blur">
+  <div class="mx-auto flex min-h-[4.25rem] w-full max-w-[72rem] items-center justify-between gap-4 px-4 sm:px-6 lg:px-8 max-[40rem]:min-h-[4.4rem] max-[40rem]:flex-wrap max-[40rem]:justify-center max-[40rem]:py-2.5">
+    <a class="font-display text-[1.2rem] font-extrabold tracking-[0.03em] text-bw-heading no-underline max-[40rem]:w-full max-[40rem]:text-center" href="/">{navBrandText}</a>
+    <nav aria-label="Primary navigation" class="max-[40rem]:w-full">
+      <ul class="m-0 flex list-none items-center gap-4 p-0 max-[40rem]:w-full max-[40rem]:flex-wrap max-[40rem]:justify-center">
+        {items.map((item) => (
+          <li>
+            {item.icon === 'github' ? (
+              <a
+                class={iconLinkClass}
+                href={item.href}
+                target={item.external ? '_blank' : undefined}
+                rel={item.external ? 'noreferrer' : undefined}
+                aria-label={item.ariaLabel}
+              >
+                <Icon name={item.icon} class="h-4 w-4" />
+              </a>
+            ) : (
+              <a
+                class={textLinkClass}
+                href={item.href}
+                target={item.external ? '_blank' : undefined}
+                rel={item.external ? 'noreferrer' : undefined}
+              >
+                {item.label}
+              </a>
+            )}
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>

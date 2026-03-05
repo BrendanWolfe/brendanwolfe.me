@@ -1,0 +1,28 @@
+---
+import siteSettings from '../../content/site-settings.json';
+
+const resumeUrl = siteSettings.resumeUrl;
+const resumeIsExternal = resumeUrl.startsWith('http');
+---
+
+<section class="pt-0 pb-4 md:pt-1 md:pb-4">
+  <p class="text-base uppercase tracking-[0.2em] text-bw-sub">Brendan Wolfe</p>
+  <h1 class="mt-3 text-4xl font-bold leading-tight text-bw-heading md:text-5xl">
+    Web Developer
+    <span class="block text-bw-accent">&amp; Full-Stack Problem Solver</span>
+  </h1>
+  <p class="mt-4 max-w-2xl text-lg text-bw-body">
+    I deliver fast, accessible web products with clean code, clear architecture, and practical product sense.
+  </p>
+  <div class="mt-6 flex flex-wrap gap-3">
+    <a
+      href={resumeUrl}
+      target={resumeIsExternal ? '_blank' : undefined}
+      rel={resumeIsExternal ? 'noreferrer' : undefined}
+      class="rounded-md bg-bw-accent px-4 py-2 text-base font-semibold text-bw-bg no-underline transition hover:bg-bw-accent-hover"
+    >
+      Download Resume
+    </a>
+    <a href="#contact" class="rounded-md px-4 py-2 text-base font-semibold text-bw-heading no-underline transition hover:bg-bw-surface-hover">Contact Me</a>
+  </div>
+</section>
