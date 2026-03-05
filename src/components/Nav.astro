@@ -2,6 +2,7 @@
 import { getNavItems } from '../lib/content';
 import ExternalLink from './ui/ExternalLink.astro';
 import GitHubLink from './GitHubLink.astro';
+import Icon from './Icon.astro';
 
 interface NavItem {
   order: number;
@@ -21,10 +22,21 @@ const textLinkClass = 'font-sans text-base font-bold text-bw-sub no-underline tr
 ---
 
 <header class="sticky top-0 z-40 border-b border-bw-border/90 bg-bw-surface/85 backdrop-blur">
-  <div class="mx-auto flex min-h-17 w-full max-w-6xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8 max-[40rem]:min-h-[4.4rem] max-[40rem]:flex-wrap max-[40rem]:justify-center max-[40rem]:py-2.5">
-    <a class="font-sans text-[1.2rem] font-extrabold tracking-[0.03em] text-bw-heading no-underline max-[40rem]:w-full max-[40rem]:text-center" href="/">{navBrandText}</a>
-    <nav aria-label="Primary navigation" class="max-[40rem]:w-full">
-      <ul class="m-0 flex list-none items-center gap-4 p-0 max-[40rem]:w-full max-[40rem]:flex-wrap max-[40rem]:justify-center">
+  <div class="mx-auto flex min-h-17 w-full max-w-6xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8 max-[40rem]:min-h-[4.4rem] max-[40rem]:py-2.5">
+    <a class="font-sans text-[1.2rem] font-extrabold tracking-[0.03em] text-bw-heading no-underline" href="/">{navBrandText}</a>
+    <button
+      id="mobile-menu-trigger"
+      type="button"
+      class="inline-flex h-11 w-11 items-center justify-center rounded-md border border-bw-border text-bw-heading transition-colors hover:border-bw-accent hover:text-bw-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bw-accent min-[40.0625rem]:hidden"
+      aria-label="Open menu"
+      aria-controls="mobile-menu-overlay"
+      aria-expanded="false"
+    >
+      <span class="sr-only">Open menu</span>
+      <Icon name="menu" class="h-6 w-6" />
+    </button>
+    <nav aria-label="Primary navigation" class="max-[40rem]:hidden">
+      <ul class="m-0 flex list-none items-center gap-4 p-0">
         {items.map((item) => (
           <li>
             <ExternalLink class={textLinkClass} href={item.href} external={item.external}>
@@ -39,3 +51,102 @@ const textLinkClass = 'font-sans text-base font-bold text-bw-sub no-underline tr
     </nav>
   </div>
 </header>
+
+<div
+  id="mobile-menu-overlay"
+  class="pointer-events-none fixed inset-0 z-50 flex items-start justify-end bg-bw-bg/92 px-6 pb-8 pt-6 opacity-0 backdrop-blur transition-opacity duration-250 min-[40.0625rem]:hidden"
+  aria-hidden="true"
+>
+  <div class="w-full">
+    <div class="mb-10 flex justify-end">
+      <button
+        id="mobile-menu-close"
+        type="button"
+        class="inline-flex h-11 w-11 items-center justify-center rounded-md border border-bw-border text-bw-heading transition-colors hover:border-bw-accent hover:text-bw-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bw-accent"
+        aria-label="Close menu"
+      >
+        <span class="sr-only">Close menu</span>
+        <Icon name="close" class="h-6 w-6" />
+      </button>
+    </div>
+    <nav aria-label="Mobile navigation">
+      <ul class="m-0 flex list-none flex-col items-end gap-6 p-0 text-right">
+        {items.map((item) => (
+          <li>
+            <ExternalLink
+              class="mobile-nav-link font-sans text-2xl font-extrabold tracking-[0.02em] text-bw-heading no-underline transition-colors hover:text-bw-accent focus-visible:text-bw-accent"
+              href={item.href}
+              external={item.external}
+            >
+              {item.label}
+            </ExternalLink>
+          </li>
+        ))}
+        <li>
+          <ExternalLink
+            class="mobile-nav-link font-sans text-2xl font-extrabold tracking-[0.02em] text-bw-heading no-underline transition-colors hover:text-bw-accent focus-visible:text-bw-accent"
+            href={githubUrl}
+            external
+          >
+            GitHub
+          </ExternalLink>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>
+
+<script is:inline>
+  (() => {
+    const menuButton = document.querySelector('#mobile-menu-trigger');
+    const overlay = document.querySelector('#mobile-menu-overlay');
+    const closeButton = document.querySelector('#mobile-menu-close');
+    const mobileLinks = overlay?.querySelectorAll('.mobile-nav-link');
+
+    if (!(menuButton instanceof HTMLButtonElement) || !(overlay instanceof HTMLDivElement)) {
+      return;
+    }
+
+    const closeMenu = () => {
+      overlay.classList.add('opacity-0', 'pointer-events-none');
+      overlay.setAttribute('aria-hidden', 'true');
+      menuButton.setAttribute('aria-expanded', 'false');
+      document.body.classList.remove('overflow-hidden');
+    };
+
+    const openMenu = () => {
+      overlay.classList.remove('opacity-0', 'pointer-events-none');
+      overlay.setAttribute('aria-hidden', 'false');
+      menuButton.setAttribute('aria-expanded', 'true');
+      document.body.classList.add('overflow-hidden');
+    };
+
+    menuButton.addEventListener('click', () => {
+      const isOpen = menuButton.getAttribute('aria-expanded') === 'true';
+      if (isOpen) {
+        closeMenu();
+        return;
+      }
+
+      openMenu();
+    });
+
+    closeButton?.addEventListener('click', closeMenu);
+
+    overlay.addEventListener('click', (event) => {
+      if (event.target === overlay) {
+        closeMenu();
+      }
+    });
+
+    mobileLinks?.forEach((link) => {
+      link.addEventListener('click', closeMenu);
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && menuButton.getAttribute('aria-expanded') === 'true') {
+        closeMenu();
+      }
+    });
+  })();
+</script>
