@@ -13,6 +13,9 @@ interface ImportMetaEnv {
 
   readonly CONTACT_TO_EMAIL?: string;
   readonly CONTACT_FROM_EMAIL?: string;
+
+  readonly UMAMI_SCRIPT?: string;
+  readonly UMAMI_WEBSITE_ID?: string;
 }
 
 interface ImportMeta {

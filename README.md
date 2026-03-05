@@ -33,6 +33,8 @@ Copy `.env.example` and set:
 - `SMTP_SECURE`
 - `CONTACT_TO_EMAIL`
 - `CONTACT_FROM_EMAIL` (optional)
+- `UMAMI_SCRIPT` (optional, e.g. `https://umami.bwaz.app/script.js`)
+- `UMAMI_WEBSITE_ID` (optional)
 
 ### Netlify
 

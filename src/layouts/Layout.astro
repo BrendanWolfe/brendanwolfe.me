@@ -38,6 +38,9 @@ if (!navBrandText || !githubUrl) {
 const pageTitle = title.includes('Brendan Wolfe') ? title : `${title} | Brendan Wolfe`;
 const canonicalUrl = canonical ?? Astro.url?.toString();
 const ogImageUrl = ogImage.startsWith('http') ? ogImage : new URL(ogImage, Astro.url).toString();
+const umamiScript = import.meta.env.UMAMI_SCRIPT;
+const umamiWebsiteId = import.meta.env.UMAMI_WEBSITE_ID;
+const hasUmami = Boolean(umamiScript && umamiWebsiteId);
 ---
 
 <!doctype html>
@@ -61,6 +64,7 @@ const ogImageUrl = ogImage.startsWith('http') ? ogImage : new URL(ogImage, Astro
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+    {hasUmami && <script is:inline defer src={umamiScript} data-website-id={umamiWebsiteId}></script>}
     <title>{pageTitle}</title>
   </head>
   <body class="min-h-screen bg-[radial-gradient(circle_at_0%_0%,#1f2b3d_0%,#151a22_55%)] font-body leading-relaxed text-bw-body">
