@@ -22,6 +22,8 @@ Personal portfolio site built with Astro.
 
 Copy `.env.example` and set:
 
+- `SITE_URL` (e.g. `https://brendanwolfe.me`; trusted forwarded hosts are derived from this value)
+- `TRUST_PROXY` (`true` when deployed behind Dokploy/Nginx/Traefik)
 - `PUBLIC_TURNSTILE_SITE_KEY`
 - `TURNSTILE_SECRET_KEY`
 - `TURNSTILE_EXPECTED_HOSTNAME` (optional)
