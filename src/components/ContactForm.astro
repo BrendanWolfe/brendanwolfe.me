@@ -3,7 +3,7 @@ import BaseForm from './forms/BaseForm.astro';
 import FormField from './forms/FormField.astro';
 ---
 
-<BaseForm action="/api/contact" ariaLabel="Contact form" turnstileAction="contact_form">
+<BaseForm actionName="contact" ariaLabel="Contact form">
   <FormField label="Name" name="name" type="text" autocomplete="name" required minlength={2} maxlength={120} />
   <FormField label="Email" name="email" type="email" autocomplete="email" required maxlength={254} />
   <FormField label="Message" name="message" type="textarea" required minlength={10} maxlength={2000} rows={5} />
