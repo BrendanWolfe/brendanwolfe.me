@@ -1,0 +1,32 @@
+---
+import ExternalLink from './ExternalLink.astro';
+
+interface Props {
+  href: string;
+  variant?: 'primary' | 'secondary' | 'outline';
+  size?: 'default' | 'compact';
+  external?: boolean;
+  class?: string;
+}
+
+const {
+  href,
+  variant = 'primary',
+  size = 'default',
+  external = /^https?:\/\//.test(href),
+  class: className = ''
+} = Astro.props;
+
+const sizeClass = size === 'compact' ? 'px-3 py-2' : 'px-4 py-2';
+const variantClass = {
+  primary: 'bg-bw-accent text-bw-bg hover:bg-bw-accent-hover',
+  secondary: 'text-bw-heading hover:bg-bw-surface-hover',
+  outline: 'border border-bw-border text-bw-heading hover:bg-bw-surface-hover'
+}[variant];
+
+const linkClass = `rounded-md ${sizeClass} text-base font-semibold no-underline transition ${variantClass} ${className}`.trim();
+---
+
+<ExternalLink href={href} external={external} class={linkClass}>
+  <slot />
+</ExternalLink>

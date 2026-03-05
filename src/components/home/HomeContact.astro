@@ -1,11 +1,13 @@
 ---
 import ContactForm from '../ContactForm.astro';
+import Section from '../sections/Section.astro';
+import SectionHeading from '../sections/SectionHeading.astro';
 ---
 
-<section id="contact" aria-labelledby="contact-heading" class="scroll-mt-24 py-6">
+<Section id="contact" labelledBy="contact-heading" class="py-6">
   <div class="grid gap-6 md:grid-cols-2 md:items-start">
     <div>
-      <h2 id="contact-heading" class="font-display text-3xl font-extrabold tracking-[0.01em] text-bw-heading md:text-4xl">Contact</h2>
+      <SectionHeading id="contact-heading">Contact</SectionHeading>
       <p class="mt-3 text-bw-body">
         If you have a project, role, or collaboration idea, send a message and I will get back to you.
       </p>
@@ -14,4 +16,4 @@ import ContactForm from '../ContactForm.astro';
 
     <ContactForm />
   </div>
-</section>
+</Section>

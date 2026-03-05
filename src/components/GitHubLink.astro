@@ -1,0 +1,25 @@
+---
+import Icon from './Icon.astro';
+import ExternalLink from './ui/ExternalLink.astro';
+
+interface Props {
+  href: string;
+  mode?: 'icon' | 'text';
+}
+
+const { href, mode = 'text' } = Astro.props;
+
+const textClass = 'text-bw-sub no-underline transition-colors hover:text-bw-heading focus-visible:text-bw-heading';
+const iconClass =
+  'inline-flex h-6 w-6 items-center justify-center leading-none text-bw-sub transition-colors hover:text-bw-heading focus-visible:text-bw-heading';
+---
+
+{mode === 'icon' ? (
+  <ExternalLink href={href} class={iconClass} ariaLabel="GitHub">
+    <Icon name="github" class="h-4 w-4" />
+  </ExternalLink>
+) : (
+  <ExternalLink href={href} class={textClass}>
+    GitHub
+  </ExternalLink>
+)}

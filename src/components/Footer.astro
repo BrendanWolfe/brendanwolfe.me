@@ -1,16 +1,19 @@
 ---
-import { getSiteSettings } from '../lib/content';
+import GitHubLink from './GitHubLink.astro';
+
+interface Props {
+  githubUrl: string;
+}
 
 const year = new Date().getFullYear();
-const siteSettings = await getSiteSettings();
-const githubUrl = siteSettings.githubUrl;
+const { githubUrl } = Astro.props as Props;
 ---
 
 <footer class="border-t border-bw-border bg-black/10">
   <div class="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-5 sm:px-6 lg:px-8">
     <p class="m-0 text-base text-bw-muted">&copy; {year} Brendan Wolfe</p>
     <p class="m-0 inline-flex items-center gap-2 text-base text-bw-muted">
-      <a class="text-bw-sub no-underline transition-colors hover:text-bw-heading focus-visible:text-bw-heading" href={githubUrl} target="_blank" rel="noreferrer">GitHub</a>
+      <GitHubLink href={githubUrl} mode="text" />
     </p>
   </div>
 </footer>

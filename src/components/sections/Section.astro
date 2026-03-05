@@ -1,0 +1,14 @@
+---
+interface Props {
+  id: string;
+  labelledBy: string;
+  class?: string;
+}
+
+const { id, labelledBy, class: className = '' } = Astro.props;
+const sectionClass = `scroll-mt-24 ${className}`.trim();
+---
+
+<section id={id} aria-labelledby={labelledBy} class={sectionClass}>
+  <slot />
+</section>

@@ -1,8 +1,11 @@
 ---
-import { getSiteSettings } from '../../lib/content';
+import ButtonLink from '../ui/ButtonLink.astro';
 
-const siteSettings = await getSiteSettings();
-const resumeUrl = siteSettings.resumeUrl;
+interface Props {
+  resumeUrl: string;
+}
+
+const { resumeUrl } = Astro.props as Props;
 ---
 
 <section class="pt-0 pb-4 md:pt-1 md:pb-4">
@@ -15,14 +18,9 @@ const resumeUrl = siteSettings.resumeUrl;
     I deliver fast, accessible web products with clean code, clear architecture, and practical product sense.
   </p>
   <div class="mt-6 flex flex-wrap gap-3">
-    <a
-      href={resumeUrl}
-      target="_blank"
-      rel="noreferrer"
-      class="rounded-md bg-bw-accent px-4 py-2 text-base font-semibold text-bw-bg no-underline transition hover:bg-bw-accent-hover"
-    >
+    <ButtonLink href={resumeUrl} variant="primary">
       Download Resume
-    </a>
-    <a href="#contact" class="rounded-md px-4 py-2 text-base font-semibold text-bw-heading no-underline transition hover:bg-bw-surface-hover">Contact Me</a>
+    </ButtonLink>
+    <ButtonLink href="#contact" variant="secondary" external={false}>Contact Me</ButtonLink>
   </div>
 </section>

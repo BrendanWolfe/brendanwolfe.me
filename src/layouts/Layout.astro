@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import { getSiteSettings } from '../lib/content';
 
 interface Props {
   title?: string;
@@ -10,6 +11,8 @@ interface Props {
   ogImage?: string;
   noindex?: boolean;
   lang?: string;
+  navBrandText?: string;
+  githubUrl?: string;
 }
 
 const {
@@ -19,7 +22,18 @@ const {
   ogImage = '/og-image.png',
   noindex = false,
   lang = 'en',
+  navBrandText: navBrandTextProp,
+  githubUrl: githubUrlProp
 } = Astro.props;
+
+let navBrandText = navBrandTextProp;
+let githubUrl = githubUrlProp;
+
+if (!navBrandText || !githubUrl) {
+  const siteSettings = await getSiteSettings();
+  navBrandText = navBrandText ?? siteSettings.navBrandText;
+  githubUrl = githubUrl ?? siteSettings.githubUrl;
+}
 
 const pageTitle = title.includes('Brendan Wolfe') ? title : `${title} | Brendan Wolfe`;
 const canonicalUrl = canonical ?? Astro.url?.toString();
@@ -57,14 +71,14 @@ const ogImageUrl = ogImage.startsWith('http') ? ogImage : new URL(ogImage, Astro
       Skip to main content
     </a>
     <div class="flex min-h-screen flex-col">
-      <Nav />
+      <Nav navBrandText={navBrandText} githubUrl={githubUrl} />
       <main
         id="main-content"
         class="mx-auto w-full max-w-6xl flex-1 px-4 pb-[clamp(2rem,6vw,4rem)] pt-[clamp(0.6rem,2vw,1.2rem)] sm:px-6 lg:px-8"
       >
         <slot />
       </main>
-      <Footer />
+      <Footer githubUrl={githubUrl} />
     </div>
   </body>
 </html>

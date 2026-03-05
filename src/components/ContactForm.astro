@@ -1,42 +1,10 @@
 ---
 import BaseForm from './forms/BaseForm.astro';
+import FormField from './forms/FormField.astro';
 ---
 
 <BaseForm action="/api/contact" ariaLabel="Contact form" turnstileAction="contact_form">
-  <label class="grid gap-1.5 text-base font-medium text-bw-heading">
-    Name
-    <input
-      name="name"
-      type="text"
-      autocomplete="name"
-      required
-      minlength="2"
-      maxlength="120"
-      class="w-full rounded-md border border-bw-border bg-bw-surface/60 px-3 py-2 text-bw-heading outline-none transition-colors focus:border-bw-accent"
-    />
-  </label>
-
-  <label class="grid gap-1.5 text-base font-medium text-bw-heading">
-    Email
-    <input
-      name="email"
-      type="email"
-      autocomplete="email"
-      required
-      maxlength="254"
-      class="w-full rounded-md border border-bw-border bg-bw-surface/60 px-3 py-2 text-bw-heading outline-none transition-colors focus:border-bw-accent"
-    />
-  </label>
-
-  <label class="grid gap-1.5 text-base font-medium text-bw-heading">
-    Message
-    <textarea
-      name="message"
-      rows="5"
-      required
-      minlength="10"
-      maxlength="2000"
-      class="w-full rounded-md border border-bw-border bg-bw-surface/60 px-3 py-2 text-bw-heading outline-none transition-colors focus:border-bw-accent"
-    ></textarea>
-  </label>
+  <FormField label="Name" name="name" type="text" autocomplete="name" required minlength={2} maxlength={120} />
+  <FormField label="Email" name="email" type="email" autocomplete="email" required maxlength={254} />
+  <FormField label="Message" name="message" type="textarea" required minlength={10} maxlength={2000} rows={5} />
 </BaseForm>

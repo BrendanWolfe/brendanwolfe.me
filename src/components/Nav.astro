@@ -1,6 +1,7 @@
 ---
-import Icon from './Icon.astro';
-import { getNavItems, getSiteSettings } from '../lib/content';
+import { getNavItems } from '../lib/content';
+import ExternalLink from './ui/ExternalLink.astro';
+import GitHubLink from './GitHubLink.astro';
 
 interface NavItem {
   order: number;
@@ -9,12 +10,14 @@ interface NavItem {
   external?: boolean;
 }
 
+interface Props {
+  navBrandText: string;
+  githubUrl: string;
+}
+
 const items = (await getNavItems()) as NavItem[];
-const siteSettings = await getSiteSettings();
-const navBrandText = siteSettings.navBrandText;
-const githubUrl = siteSettings.githubUrl;
+const { navBrandText, githubUrl } = Astro.props as Props;
 const textLinkClass = 'font-sans text-base font-bold text-bw-sub no-underline transition-colors hover:text-bw-heading focus-visible:text-bw-heading';
-const iconLinkClass = 'inline-flex h-6 w-6 items-center justify-center leading-none text-bw-sub transition-colors hover:text-bw-heading focus-visible:text-bw-heading';
 ---
 
 <header class="sticky top-0 z-40 border-b border-bw-border/90 bg-bw-bg/85 backdrop-blur">
@@ -24,20 +27,13 @@ const iconLinkClass = 'inline-flex h-6 w-6 items-center justify-center leading-n
       <ul class="m-0 flex list-none items-center gap-4 p-0 max-[40rem]:w-full max-[40rem]:flex-wrap max-[40rem]:justify-center">
         {items.map((item) => (
           <li>
-            <a
-              class={textLinkClass}
-              href={item.href}
-              target={item.external ? '_blank' : undefined}
-              rel={item.external ? 'noreferrer' : undefined}
-            >
+            <ExternalLink class={textLinkClass} href={item.href} external={item.external}>
               {item.label}
-            </a>
+            </ExternalLink>
           </li>
         ))}
         <li>
-          <a class={iconLinkClass} href={githubUrl} target="_blank" rel="noreferrer" aria-label="GitHub">
-            <Icon name="github" class="h-4 w-4" />
-          </a>
+          <GitHubLink href={githubUrl} mode="icon" />
         </li>
       </ul>
     </nav>

@@ -1,5 +1,6 @@
 ---
 import { Image } from 'astro:assets';
+import ButtonLink from './ui/ButtonLink.astro';
 
 interface Props {
   title: string;
@@ -32,7 +33,7 @@ const { title, description, image, tags, liveUrl, githubUrl } = Astro.props;
     ))}
   </ul>
   <div class="mt-6 flex gap-3">
-    <a href={liveUrl} target="_blank" rel="noreferrer" class="rounded-md bg-bw-accent px-3 py-2 text-base font-semibold text-bw-bg no-underline transition hover:bg-bw-accent-hover">Live Demo</a>
-    <a href={githubUrl} target="_blank" rel="noreferrer" class="rounded-md border border-bw-border px-3 py-2 text-base font-semibold text-bw-heading no-underline transition hover:bg-bw-surface-hover">GitHub</a>
+    <ButtonLink href={liveUrl} variant="primary" size="compact">Live Demo</ButtonLink>
+    <ButtonLink href={githubUrl} variant="outline" size="compact">GitHub</ButtonLink>
   </div>
 </article>
