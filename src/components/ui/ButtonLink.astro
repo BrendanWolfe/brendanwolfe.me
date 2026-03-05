@@ -7,6 +7,8 @@ interface Props {
   size?: 'default' | 'compact';
   external?: boolean;
   class?: string;
+  umamiEvent?: string;
+  umamiEventData?: Record<string, string>;
 }
 
 const {
@@ -14,7 +16,9 @@ const {
   variant = 'primary',
   size = 'default',
   external = /^https?:\/\//.test(href),
-  class: className = ''
+  class: className = '',
+  umamiEvent,
+  umamiEventData
 } = Astro.props;
 
 const sizeClass = size === 'compact' ? 'px-3 py-2' : 'px-4 py-2';
@@ -27,6 +31,6 @@ const variantClass = {
 const linkClass = `rounded-md ${sizeClass} text-base font-semibold no-underline transition ${variantClass} ${className}`.trim();
 ---
 
-<ExternalLink href={href} external={external} class={linkClass}>
+<ExternalLink href={href} external={external} class={linkClass} umamiEvent={umamiEvent} umamiEventData={umamiEventData}>
   <slot />
 </ExternalLink>

@@ -13,7 +13,7 @@ const { githubUrl } = Astro.props as Props;
   <div class="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-5 sm:px-6 lg:px-8">
     <p class="m-0 text-base text-bw-muted">&copy; {year} Brendan Wolfe</p>
     <p class="m-0 inline-flex items-center gap-2 text-base text-bw-muted">
-      <GitHubLink href={githubUrl} mode="text" />
+      <GitHubLink href={githubUrl} mode="text" umamiLocation="footer" />
     </p>
   </div>
 </footer>

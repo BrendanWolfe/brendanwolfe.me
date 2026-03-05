@@ -4,14 +4,25 @@ interface Props {
   external?: boolean;
   class?: string;
   ariaLabel?: string;
+  umamiEvent?: string;
+  umamiEventData?: Record<string, string>;
 }
 
 const {
   href,
   external = /^https?:\/\//.test(href),
   class: className = '',
-  ariaLabel
+  ariaLabel,
+  umamiEvent = undefined,
+  umamiEventData = undefined
 } = Astro.props;
+
+const umamiAttributes = {
+  ...(umamiEvent ? { 'data-umami-event': umamiEvent } : {}),
+  ...Object.fromEntries(
+    Object.entries(umamiEventData ?? {}).map(([key, value]) => [`data-umami-event-${key}`, value])
+  )
+};
 ---
 
 <a
@@ -20,6 +31,7 @@ const {
   rel={external ? 'noreferrer' : undefined}
   class={className}
   aria-label={ariaLabel}
+  {...umamiAttributes}
 >
   <slot />
 </a>

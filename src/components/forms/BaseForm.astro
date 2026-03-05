@@ -52,6 +52,11 @@ const {
 <script is:inline>
   (() => {
     const forms = document.querySelectorAll('form[data-base-form]');
+    const trackUmamiEvent = (eventName, eventData) => {
+      if (window.umami && typeof window.umami.track === 'function') {
+        window.umami.track(eventName, eventData);
+      }
+    };
 
     const setLoadedAt = (form) => {
       const loadedAtInput = form.querySelector('[data-form-loaded-at]');
@@ -116,6 +121,7 @@ const {
             return;
           }
 
+          trackUmamiEvent('contact-form-submit', { form: 'contact' });
           setStatus(statusEl, message, 'success');
           form.reset();
           setLoadedAt(form);

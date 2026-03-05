@@ -18,7 +18,12 @@ const { resumeUrl } = Astro.props as Props;
     I deliver fast, accessible web products with clean code, clear architecture, and practical product sense.
   </p>
   <div class="mt-6 flex flex-wrap gap-3">
-    <ButtonLink href={resumeUrl} variant="primary">
+    <ButtonLink
+      href={resumeUrl}
+      variant="primary"
+      umamiEvent="resume-download-click"
+      umamiEventData={{ location: 'hero' }}
+    >
       Download Resume
     </ButtonLink>
     <ButtonLink href="#contact" variant="secondary" external={false}>Contact Me</ButtonLink>

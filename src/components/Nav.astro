@@ -45,7 +45,7 @@ const textLinkClass = 'font-sans text-base font-bold text-bw-sub no-underline tr
           </li>
         ))}
         <li>
-          <GitHubLink href={githubUrl} mode="icon" />
+          <GitHubLink href={githubUrl} mode="icon" umamiLocation="nav-desktop" />
         </li>
       </ul>
     </nav>
@@ -87,6 +87,8 @@ const textLinkClass = 'font-sans text-base font-bold text-bw-sub no-underline tr
             class="mobile-nav-link font-sans text-2xl font-extrabold tracking-[0.02em] text-bw-heading no-underline transition-colors hover:text-bw-accent focus-visible:text-bw-accent"
             href={githubUrl}
             external
+            umamiEvent="github-link-click"
+            umamiEventData={{ location: 'nav-mobile' }}
           >
             GitHub
           </ExternalLink>

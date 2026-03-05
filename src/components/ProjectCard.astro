@@ -34,6 +34,14 @@ const { title, description, image, tags, liveUrl, githubUrl } = Astro.props;
   </ul>
   <div class="mt-6 flex gap-3">
     <ButtonLink href={liveUrl} variant="primary" size="compact">Live Demo</ButtonLink>
-    <ButtonLink href={githubUrl} variant="outline" size="compact">GitHub</ButtonLink>
+    <ButtonLink
+      href={githubUrl}
+      variant="outline"
+      size="compact"
+      umamiEvent="github-link-click"
+      umamiEventData={{ location: 'project-card', project: title }}
+    >
+      GitHub
+    </ButtonLink>
   </div>
 </article>

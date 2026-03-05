@@ -5,9 +5,11 @@ import ExternalLink from './ui/ExternalLink.astro';
 interface Props {
   href: string;
   mode?: 'icon' | 'text';
+  umamiLocation?: string;
 }
 
-const { href, mode = 'text' } = Astro.props;
+const { href, mode = 'text', umamiLocation } = Astro.props;
+const umamiEventData = umamiLocation ? { location: umamiLocation } : undefined;
 
 const textClass = 'text-bw-sub no-underline transition-colors hover:text-bw-heading focus-visible:text-bw-heading';
 const iconClass =
@@ -15,11 +17,17 @@ const iconClass =
 ---
 
 {mode === 'icon' ? (
-  <ExternalLink href={href} class={iconClass} ariaLabel="GitHub">
+  <ExternalLink
+    href={href}
+    class={iconClass}
+    ariaLabel="GitHub"
+    umamiEvent="github-link-click"
+    umamiEventData={umamiEventData}
+  >
     <Icon name="github" class="h-4 w-4" />
   </ExternalLink>
 ) : (
-  <ExternalLink href={href} class={textClass}>
+  <ExternalLink href={href} class={textClass} umamiEvent="github-link-click" umamiEventData={umamiEventData}>
     GitHub
   </ExternalLink>
 )}
