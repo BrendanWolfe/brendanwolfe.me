@@ -3,17 +3,14 @@ import { getSiteSettings } from '../lib/content';
 
 const year = new Date().getFullYear();
 const siteSettings = await getSiteSettings();
-const emailAddress = siteSettings.email;
-const mailtoHref = `mailto:${emailAddress}`;
+const githubUrl = siteSettings.githubUrl;
 ---
 
 <footer class="border-t border-bw-border bg-black/10">
   <div class="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-5 sm:px-6 lg:px-8">
     <p class="m-0 text-base text-bw-muted">&copy; {year} Brendan Wolfe</p>
     <p class="m-0 inline-flex items-center gap-2 text-base text-bw-muted">
-      <a class="text-bw-sub no-underline transition-colors hover:text-bw-heading focus-visible:text-bw-heading" href="https://github.com/brendanwolfe" target="_blank" rel="noreferrer">GitHub</a>
-      ·
-      <a class="text-bw-sub no-underline transition-colors hover:text-bw-heading focus-visible:text-bw-heading" href={mailtoHref}>Email</a>
+      <a class="text-bw-sub no-underline transition-colors hover:text-bw-heading focus-visible:text-bw-heading" href={githubUrl} target="_blank" rel="noreferrer">GitHub</a>
     </p>
   </div>
 </footer>

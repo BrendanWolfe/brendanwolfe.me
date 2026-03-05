@@ -56,7 +56,6 @@ const siteSettings = defineCollection({
   schema: z.object({
     resumeUrl: z.string(),
     navBrandText: z.string(),
-    email: z.string().email(),
     githubUrl: z.string().url(),
   }),
 });
