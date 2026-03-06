@@ -27,7 +27,7 @@ const textLinkClass = 'font-sans text-base font-bold text-bw-sub no-underline tr
     <button
       id="mobile-menu-trigger"
       type="button"
-      class="inline-flex h-11 w-11 items-center justify-center rounded-md border border-bw-border text-bw-heading transition-colors hover:border-bw-accent hover:text-bw-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bw-accent min-[40.0625rem]:hidden"
+      class="inline-flex h-11 w-11 items-center justify-center rounded-md cursor-pointer border border-bw-border text-bw-heading transition-colors hover:border-bw-accent hover:text-bw-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bw-accent min-[40.0625rem]:hidden"
       aria-label="Open menu"
       aria-controls="mobile-menu-overlay"
       aria-expanded="false"
@@ -64,24 +64,37 @@ const textLinkClass = 'font-sans text-base font-bold text-bw-sub no-underline tr
 
 <div
   id="mobile-menu-overlay"
-  class="pointer-events-none fixed inset-0 z-50 flex items-start justify-end bg-bw-bg/92 px-6 pb-8 pt-6 opacity-0 backdrop-blur transition-opacity duration-250 min-[40.0625rem]:hidden"
+  class="pointer-events-none fixed inset-0 z-50 bg-bw-bg/92 px-6 pb-8 pt-6 opacity-0 backdrop-blur transition-opacity duration-250 min-[40.0625rem]:hidden"
   aria-hidden="true"
   hidden
 >
-  <div class="w-full">
-    <div class="mb-10 flex justify-end">
+  <div class="flex min-h-full w-full flex-col">
+    <div class="flex items-start justify-between gap-4">
+      <a
+        class="inline-flex h-12 w-12 items-center justify-center no-underline opacity-30 transition-opacity duration-200 hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-none"
+        href="/"
+      >
+        <span class="sr-only">Home</span>
+        <img
+          src="/apple-touch-icon.png"
+          alt=""
+          class="h-11 w-11 object-contain"
+          loading="eager"
+          decoding="async"
+        />
+      </a>
       <button
         id="mobile-menu-close"
         type="button"
-        class="inline-flex h-11 w-11 items-center justify-center rounded-md border border-bw-border text-bw-heading transition-colors hover:border-bw-accent hover:text-bw-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bw-accent"
+        class="inline-flex h-11 w-11 items-center justify-center rounded-md cursor-pointer border border-bw-border text-bw-heading transition-colors hover:border-bw-accent hover:text-bw-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bw-accent"
         aria-label="Close menu"
       >
         <span class="sr-only">Close menu</span>
         <Icon name="close" class="h-6 w-6" />
       </button>
     </div>
-    <nav aria-label="Mobile navigation">
-      <ul class="m-0 flex list-none flex-col items-end gap-6 p-0 text-right">
+    <nav aria-label="Mobile navigation" class="flex flex-1 items-center justify-center">
+      <ul class="m-0 flex list-none flex-col items-center gap-8 p-0 text-center">
         {items.map((item) => {
           const isExternal = item.external ?? /^https?:\/\//.test(item.href);
 
@@ -89,14 +102,14 @@ const textLinkClass = 'font-sans text-base font-bold text-bw-sub no-underline tr
             <li>
               {isExternal ? (
                 <ExternalLink
-                  class="mobile-nav-link font-sans text-2xl font-extrabold tracking-[0.02em] text-bw-heading no-underline transition-colors hover:text-bw-accent focus-visible:text-bw-accent"
+                  class="mobile-nav-link font-sans text-[clamp(2.5rem,9vw,3.5rem)] leading-[0.98] font-extrabold tracking-[-0.035em] text-bw-heading no-underline transition-colors hover:text-bw-accent focus-visible:text-bw-accent"
                   href={item.href}
                 >
                   {item.label}
                 </ExternalLink>
               ) : (
                 <a
-                  class="mobile-nav-link font-sans text-2xl font-extrabold tracking-[0.02em] text-bw-heading no-underline transition-colors hover:text-bw-accent focus-visible:text-bw-accent"
+                  class="mobile-nav-link font-sans text-[clamp(2.5rem,9vw,3.5rem)] leading-[0.98] font-extrabold tracking-[-0.035em] text-bw-heading no-underline transition-colors hover:text-bw-accent focus-visible:text-bw-accent"
                   href={item.href}
                 >
                   {item.label}
@@ -107,7 +120,7 @@ const textLinkClass = 'font-sans text-base font-bold text-bw-sub no-underline tr
         })}
         <li>
           <ExternalLink
-            class="mobile-nav-link font-sans text-2xl font-extrabold tracking-[0.02em] text-bw-heading no-underline transition-colors hover:text-bw-accent focus-visible:text-bw-accent"
+            class="mobile-nav-link font-sans text-[clamp(2.5rem,9vw,3.5rem)] leading-[0.98] font-extrabold tracking-[-0.035em] text-bw-heading no-underline transition-colors hover:text-bw-accent focus-visible:text-bw-accent"
             href={githubUrl}
             umamiEvent="github-link-click"
             umamiEventData={{ location: 'nav-mobile' }}
