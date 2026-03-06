@@ -1,10 +1,19 @@
 <script setup lang="ts">
-import { PUBLIC_FORMSPREE_ENDPOINT_CONTACT } from 'astro:env/client';
 import { toTypedSchema } from '@vee-validate/valibot';
 import * as v from 'valibot';
 import BaseForm from './forms/BaseForm.vue';
 import FormTextInput from './forms/FormTextInput.vue';
 import FormTextarea from './forms/FormTextarea.vue';
+
+interface Props {
+  formspreeEndpoint?: string;
+  turnstileSiteKey?: string;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  formspreeEndpoint: '',
+  turnstileSiteKey: ''
+});
 
 const INVALID_NAME_MESSAGE = 'Please enter your name.';
 const INVALID_EMAIL_MESSAGE = 'Please enter a valid email address.';
@@ -27,17 +36,16 @@ const validationSchema = toTypedSchema(
     )
   })
 );
-
-const formspreeEndpoint = (PUBLIC_FORMSPREE_ENDPOINT_CONTACT || '').trim();
 </script>
 
 <template>
   <BaseForm
-    :action="formspreeEndpoint"
+    :action="props.formspreeEndpoint.trim()"
     actionName="contact"
     ariaLabel="Contact form"
     submit-label="Send Message"
     :validation-schema="validationSchema"
+    :turnstile-site-key="props.turnstileSiteKey.trim()"
   >
     <template #default="{ isSubmitting }">
       <div class="grid gap-3">

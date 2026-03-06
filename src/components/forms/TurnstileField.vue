@@ -20,7 +20,7 @@ const props = withDefaults(defineProps<Props>(), {
   expiredMessage: 'Captcha expired. Please complete the challenge again.',
   requiredMessage: 'Please complete the captcha challenge.',
   loadErrorMessage: 'Captcha failed to load. Please refresh and try again.',
-  missingKeyMessage: 'Turnstile is not configured. Set PUBLIC_TURNSTILE_SITE_KEY.'
+  missingKeyMessage: 'Turnstile is not configured.'
 });
 
 const widgetId = ref<string | number | undefined>(undefined);

@@ -2,6 +2,13 @@
 import ContactForm from '../ContactForm.vue';
 import Section from '../sections/Section.astro';
 import SectionHeading from '../sections/SectionHeading.astro';
+
+interface Props {
+  contactFormEndpoint: string;
+  turnstileSiteKey: string;
+}
+
+const { contactFormEndpoint, turnstileSiteKey } = Astro.props as Props;
 ---
 
 <Section id="contact" labelledBy="contact-heading" class="py-6">
@@ -14,6 +21,10 @@ import SectionHeading from '../sections/SectionHeading.astro';
       <p class="mt-3 text-base text-bw-sub">I usually reply within 1-2 business days.</p>
     </div>
 
-    <ContactForm client:load />
+    <ContactForm
+      client:load
+      formspree-endpoint={contactFormEndpoint}
+      turnstile-site-key={turnstileSiteKey}
+    />
   </div>
 </Section>

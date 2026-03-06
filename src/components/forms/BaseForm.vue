@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { PUBLIC_TURNSTILE_SITE_KEY } from 'astro:env/client';
 import { computed, ref } from 'vue';
 import { useForm } from 'vee-validate';
 import TurnstileField from './TurnstileField.vue';
@@ -49,7 +48,7 @@ const normalizedActionName = computed(() =>
 const formRootId = computed(() => `bw-form-${normalizedActionName.value}`);
 const turnstileContainerId = computed(() => `${formRootId.value}-turnstile`);
 const resolvedTurnstileAction = computed(() => normalizedActionName.value);
-const resolvedTurnstileSiteKey = computed(() => (props.turnstileSiteKey || PUBLIC_TURNSTILE_SITE_KEY || '').trim());
+const resolvedTurnstileSiteKey = computed(() => (props.turnstileSiteKey || '').trim());
 
 const statusClass = computed(() => {
   if (statusState.value === 'error') {

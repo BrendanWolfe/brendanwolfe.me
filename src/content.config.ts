@@ -58,6 +58,8 @@ const siteSettings = defineCollection({
     resumeUrl: z.string(),
     navBrandText: z.string(),
     githubUrl: z.string().url(),
+    contactFormEndpoint: z.string().url(),
+    turnstileSiteKey: z.string(),
     umamiScript: z.string().url(),
     umamiWebsiteId: z.string(),
   }),

@@ -1,5 +1,5 @@
 // @ts-check
-import { defineConfig, envField } from 'astro/config';
+import { defineConfig } from 'astro/config';
 import { readFileSync } from 'node:fs';
 import { getAllowedDomainsFromSiteUrl, getSiteUrl } from './config/astro/config-helpers.mjs';
 
@@ -16,20 +16,6 @@ const allowedDomainPatterns = getAllowedDomainsFromSiteUrl(siteUrl);
 export default defineConfig({
   site: siteUrl,
   output: 'static',
-  env: {
-    schema: {
-      PUBLIC_FORMSPREE_ENDPOINT_CONTACT: envField.string({
-        context: 'client',
-        access: 'public',
-        optional: true
-      }),
-      PUBLIC_TURNSTILE_SITE_KEY: envField.string({
-        context: 'client',
-        access: 'public',
-        optional: true
-      })
-    }
-  },
   adapter: node({
     mode: 'standalone'
   }),

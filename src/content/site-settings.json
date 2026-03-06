@@ -3,6 +3,8 @@
   "resumeUrl": "/resume.pdf",
   "navBrandText": "brendanwolfe.me",
   "githubUrl": "https://github.com/brendanwolfe",
+  "contactFormEndpoint": "https://formspree.io/f/xojkaolg",
+  "turnstileSiteKey": "0x4AAAAAACmmpy8Zi3O887t0",
   "umamiScript": "https://umami.bwaz.app/script.js",
   "umamiWebsiteId": "05480b6f-e36c-4862-b304-e1c2ed0708c1"
 }

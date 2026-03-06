@@ -18,20 +18,13 @@ Personal portfolio site built with Astro.
 2. Build the site with `npm run build`.
 3. Run the Astro Node entrypoint (`node dist/server/entry.mjs`) in your container/host.
 
-## Contact Form Environment Variables
-
-Copy `.env.example` and set:
-
-- `PUBLIC_FORMSPREE_ENDPOINT_CONTACT`
-- `PUBLIC_TURNSTILE_SITE_KEY`
-
 ## Contact Form Setup
 
 The contact form submits directly to Formspree from the browser and stays on-page by posting with `fetch` and `Accept: application/json`.
 
-1. Create a Formspree form and copy its endpoint into `PUBLIC_FORMSPREE_ENDPOINT_CONTACT`.
+1. Create a Formspree form and copy its endpoint into `contactFormEndpoint` in `src/content/site-settings.json`.
 2. Enable Cloudflare Turnstile in the Formspree dashboard for that form.
-3. Put the Turnstile site key in `PUBLIC_TURNSTILE_SITE_KEY`.
+3. Put the Turnstile site key in `turnstileSiteKey` in `src/content/site-settings.json`.
 4. Allow your local and production domains in the Turnstile widget configuration.
 
 The Turnstile secret is managed in Formspree, not in this app.
@@ -44,6 +37,8 @@ The Turnstile secret is managed in Formspree, not in this app.
 - `navBrandText`
 - `resumeUrl`
 - `githubUrl`
+- `contactFormEndpoint`
+- `turnstileSiteKey`
 - `umamiScript`
 - `umamiWebsiteId`
 
