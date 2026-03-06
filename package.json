@@ -16,17 +16,15 @@
     "@fontsource-variable/instrument-sans": "^5.2.8",
     "@fontsource-variable/outfit": "^5.2.8",
     "@tailwindcss/vite": "^4.2.1",
+    "@vee-validate/valibot": "^4.15.1",
     "astro": "^5.17.1",
-    "dompurify": "^3.3.1",
-    "jsdom": "^28.1.0",
-    "nodemailer": "^8.0.1",
     "tailwindcss": "^4.2.1",
+    "valibot": "^1.1.0",
+    "vee-validate": "^4.15.1",
     "vue": "^3.5.29"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.6",
-    "@types/jsdom": "^28.0.0",
-    "@types/nodemailer": "^7.0.11",
     "typescript": "^5.9.3"
   }
 }

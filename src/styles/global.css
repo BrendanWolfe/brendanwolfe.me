@@ -53,3 +53,54 @@ h6 {
     scroll-behavior: auto;
   }
 }
+
+.bw-form-label {
+  color: var(--color-bw-heading);
+  font-weight: 500;
+}
+
+.bw-form-input,
+.bw-form-textarea {
+  width: 100%;
+  border-radius: 0.75rem;
+  border: 1px solid var(--color-bw-border);
+  background: color-mix(in srgb, var(--color-bw-surface) 60%, transparent);
+  color: #fff;
+  padding: 0.85rem 1rem;
+  font: inherit;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    background-color 160ms ease;
+}
+
+.bw-form-textarea {
+  min-height: 9rem;
+  resize: vertical;
+}
+
+.bw-form-input::placeholder,
+.bw-form-textarea::placeholder {
+  color: var(--color-bw-muted);
+}
+
+.bw-form-input:hover,
+.bw-form-textarea:hover {
+  border-color: color-mix(in srgb, var(--color-bw-accent) 45%, var(--color-bw-border));
+}
+
+.bw-form-input:focus,
+.bw-form-textarea:focus,
+.bw-form-input:focus-visible,
+.bw-form-textarea:focus-visible {
+  outline: none;
+  border-color: var(--color-bw-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-bw-accent) 18%, transparent);
+}
+
+.bw-form-error {
+  min-height: 1.25rem;
+  color: var(--color-red-300);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}

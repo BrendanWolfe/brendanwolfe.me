@@ -22,16 +22,19 @@ Personal portfolio site built with Astro.
 
 Copy `.env.example` and set:
 
+- `PUBLIC_FORMSPREE_ENDPOINT_CONTACT`
 - `PUBLIC_TURNSTILE_SITE_KEY`
-- `TURNSTILE_SECRET_KEY`
-- `TURNSTILE_EXPECTED_HOSTNAME` (optional)
-- `SMTP_HOST`
-- `SMTP_PORT`
-- `SMTP_USER`
-- `SMTP_PASS`
-- `SMTP_SECURE`
-- `CONTACT_TO_EMAIL`
-- `CONTACT_FROM_EMAIL` (optional)
+
+## Contact Form Setup
+
+The contact form submits directly to Formspree from the browser and stays on-page by posting with `fetch` and `Accept: application/json`.
+
+1. Create a Formspree form and copy its endpoint into `PUBLIC_FORMSPREE_ENDPOINT_CONTACT`.
+2. Enable Cloudflare Turnstile in the Formspree dashboard for that form.
+3. Put the Turnstile site key in `PUBLIC_TURNSTILE_SITE_KEY`.
+4. Allow your local and production domains in the Turnstile widget configuration.
+
+The Turnstile secret is managed in Formspree, not in this app.
 
 ## Site Settings
 

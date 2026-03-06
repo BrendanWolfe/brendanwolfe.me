@@ -18,53 +18,13 @@ export default defineConfig({
   output: 'static',
   env: {
     schema: {
+      PUBLIC_FORMSPREE_ENDPOINT_CONTACT: envField.string({
+        context: 'client',
+        access: 'public',
+        optional: true
+      }),
       PUBLIC_TURNSTILE_SITE_KEY: envField.string({
-        context: 'server',
-        access: 'public',
-        optional: true
-      }),
-      TURNSTILE_SECRET_KEY: envField.string({
-        context: 'server',
-        access: 'secret',
-        optional: true
-      }),
-      TURNSTILE_EXPECTED_HOSTNAME: envField.string({
-        context: 'server',
-        access: 'public',
-        optional: true
-      }),
-      SMTP_HOST: envField.string({
-        context: 'server',
-        access: 'public',
-        optional: true
-      }),
-      SMTP_PORT: envField.string({
-        context: 'server',
-        access: 'public',
-        optional: true
-      }),
-      SMTP_USER: envField.string({
-        context: 'server',
-        access: 'public',
-        optional: true
-      }),
-      SMTP_PASS: envField.string({
-        context: 'server',
-        access: 'secret',
-        optional: true
-      }),
-      SMTP_SECURE: envField.string({
-        context: 'server',
-        access: 'public',
-        optional: true
-      }),
-      CONTACT_TO_EMAIL: envField.string({
-        context: 'server',
-        access: 'public',
-        optional: true
-      }),
-      CONTACT_FROM_EMAIL: envField.string({
-        context: 'server',
+        context: 'client',
         access: 'public',
         optional: true
       })
