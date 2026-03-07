@@ -14,6 +14,7 @@ permissions:
 env:
   REGISTRY_HOST: ghcr.io
   DOKPLOY_WEBHOOK_URL: ${{ secrets.DOKPLOY_WEBHOOK }}
+  DOKPLOY_WEBHOOK_URL_DEV: ${{ secrets.DOKPLOY_WEBHOOK_DEV }}
 
 jobs:
   docker:
@@ -76,9 +77,16 @@ jobs:
           platforms: linux/amd64,linux/arm64
           tags: ${{ steps.tags.outputs.tags }}
 
-      - name: Trigger Dokploy deploy webhook
-        if: ${{ success() && env.DOKPLOY_WEBHOOK_URL != '' }}
+      - name: Trigger main Dokploy deploy webhook
+        if: ${{ success() && github.ref_name == 'main' && env.DOKPLOY_WEBHOOK_URL != '' }}
         env:
           WEBHOOK_URL: ${{ env.DOKPLOY_WEBHOOK_URL }}
+        run: |
+          curl -fsS -X POST "$WEBHOOK_URL" || curl -fsS "$WEBHOOK_URL"
+
+      - name: Trigger dev Dokploy deploy webhook
+        if: ${{ success() && github.ref_name == 'dev' && env.DOKPLOY_WEBHOOK_URL_DEV != '' }}
+        env:
+          WEBHOOK_URL: ${{ env.DOKPLOY_WEBHOOK_URL_DEV }}
         run: |
           curl -fsS -X POST "$WEBHOOK_URL" || curl -fsS "$WEBHOOK_URL"
