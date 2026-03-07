@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - dev
   workflow_dispatch:
 
 permissions:
@@ -28,6 +29,31 @@ jobs:
           IMAGE_NAME_LOWER="$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')"
           echo "image_name=$IMAGE_NAME_LOWER" >> "$GITHUB_OUTPUT"
 
+      - name: Compute image tags
+        id: tags
+        run: |
+          BRANCH_NAME='${{ github.ref_name }}'
+          NORMALIZED_BRANCH="$(printf '%s' "$BRANCH_NAME" \
+            | tr '[:upper:]' '[:lower:]' \
+            | sed -E 's/[^a-z0-9._-]+/-/g; s/^[.-]+//; s/[.-]+$//')"
+
+          if [ -z "$NORMALIZED_BRANCH" ]; then
+            echo "Normalized branch tag is empty" >&2
+            exit 1
+          fi
+
+          {
+            echo 'tags<<EOF'
+            echo '${{ env.REGISTRY_HOST }}/${{ steps.prep.outputs.image_name }}:'"$NORMALIZED_BRANCH"
+            echo '${{ env.REGISTRY_HOST }}/${{ steps.prep.outputs.image_name }}:${{ github.sha }}'
+
+            if [ "$BRANCH_NAME" = 'main' ]; then
+              echo '${{ env.REGISTRY_HOST }}/${{ steps.prep.outputs.image_name }}:latest'
+            fi
+
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
@@ -48,9 +74,7 @@ jobs:
           file: ./Dockerfile
           push: true
           platforms: linux/amd64,linux/arm64
-          tags: |
-            ${{ env.REGISTRY_HOST }}/${{ steps.prep.outputs.image_name }}:latest
-            ${{ env.REGISTRY_HOST }}/${{ steps.prep.outputs.image_name }}:${{ github.sha }}
+          tags: ${{ steps.tags.outputs.tags }}
 
       - name: Trigger Dokploy deploy webhook
         if: ${{ success() && env.DOKPLOY_WEBHOOK_URL != '' }}
