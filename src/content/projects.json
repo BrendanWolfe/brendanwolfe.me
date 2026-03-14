@@ -22,13 +22,5 @@
     "tags": ["PHP", "WordPress", "GSAP", "CSS Animations"],
     "liveUrl": "https://mediaalpha.com/",
     "githubUrl": null
-  },
-  {
-    "title": "AD Options",
-    "description": "An oldie but a goodie. An options wordpress plugin (like cmb2 or ACF) I made this to use as an options framework in the custom theme of our digital agency.",
-    "image": "ad-options.png",
-    "tags": ["PHP", "WordPress", "VueJS", "SCSS", "BEM CSS"],
-    "liveUrl": null,
-    "githubUrl": "https://github.com/BrendanWolfe/ad-options"
   }
 ]
