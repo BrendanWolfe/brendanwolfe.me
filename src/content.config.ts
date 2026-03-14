@@ -28,8 +28,8 @@ const projects = defineCollection({
       description: string;
       image: string;
       tags: string[];
-      liveUrl: string;
-      githubUrl: string;
+      liveUrl: string | null;
+      githubUrl: string | null;
     }>;
 
     return items.map((item, index) => ({
@@ -44,8 +44,8 @@ const projects = defineCollection({
     description: z.string(),
     image: z.string(),
     tags: z.array(z.string()),
-    liveUrl: z.string().url(),
-    githubUrl: z.string().url(),
+    liveUrl: z.string().url().nullable(),
+    githubUrl: z.string().url().nullable(),
   }),
 });
 

@@ -8,8 +8,8 @@ interface Props {
   description: string;
   image: ImageMetadata;
   tags: string[];
-  liveUrl: string;
-  githubUrl: string;
+  liveUrl: string | null;
+  githubUrl: string | null;
 }
 
 const { title, description, image, tags, liveUrl, githubUrl } = Astro.props;

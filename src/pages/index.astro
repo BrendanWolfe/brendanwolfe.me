@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/home/Hero.astro';
-// import Projects from '../components/home/Projects.astro';
+import Projects from '../components/home/Projects.astro';
 import About from '../components/home/About.astro';
 import HomeContact from '../components/home/HomeContact.astro';
 import { getSiteSettings } from '../lib/content';
@@ -17,7 +17,7 @@ const siteSettings = await getSiteSettings();
 >
   <div class="space-y-8 py-8 md:space-y-12 md:py-10">
     <Hero resumeUrl={siteSettings.resumeUrl} />
-    <!-- <Projects /> -->
+    <Projects />
     <About />
     <HomeContact
       contactFormEndpoint={siteSettings.contactFormEndpoint}

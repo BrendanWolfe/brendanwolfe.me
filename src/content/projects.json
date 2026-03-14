@@ -1,6 +1,6 @@
 [
   {
-    "title": "Portfolio Site",
+    "title": "brendanwolfe.me",
     "description": "A fast, accessible personal portfolio built with Astro and Tailwind CSS.",
     "image": "brendanwolfe.me.png",
     "tags": ["Astro", "Tailwind CSS", "Accessibility"],
