@@ -1,7 +1,8 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
+import { getProjectImage } from './project-images';
+import type { Project } from './project-types';
 
 type NavItem = CollectionEntry<'navItems'>['data'];
-type Project = CollectionEntry<'projects'>['data'];
 type SiteSettings = CollectionEntry<'siteSettings'>['data'];
 
 export async function getNavItems(): Promise<NavItem[]> {
@@ -11,7 +12,12 @@ export async function getNavItems(): Promise<NavItem[]> {
 
 export async function getProjects(): Promise<Project[]> {
   const projects = await getCollection('projects');
-  return projects.map(({ data }) => data).sort((a, b) => a.order - b.order);
+  return projects
+    .map(({ data }) => ({
+      ...data,
+      image: getProjectImage(data.image),
+    }))
+    .sort((a, b) => a.order - b.order);
 }
 
 export async function getSiteSettings(): Promise<SiteSettings> {

@@ -26,7 +26,7 @@ const projects = defineCollection({
     const items = JSON.parse(text) as Array<{
       title: string;
       description: string;
-      image?: string;
+      image: string;
       tags: string[];
       liveUrl: string;
       githubUrl: string;
@@ -42,7 +42,7 @@ const projects = defineCollection({
     order: z.number().int().nonnegative(),
     title: z.string(),
     description: z.string(),
-    image: z.string().optional(),
+    image: z.string(),
     tags: z.array(z.string()),
     liveUrl: z.string().url(),
     githubUrl: z.string().url(),
