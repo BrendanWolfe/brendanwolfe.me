@@ -52,7 +52,7 @@ export async function getBlogPosts(): Promise<BlogPostCard[]> {
       ...post,
       data: {
         ...post.data,
-        image: getBlogImage(post.id, post.data.image),
+        image: getBlogImage(post.data.image),
       },
     })),
     'newest',

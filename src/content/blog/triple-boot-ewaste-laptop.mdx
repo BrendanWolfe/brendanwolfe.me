@@ -1,0 +1,35 @@
+---
+title: "Triple-Booting a Laptop Someone Threw Away"
+description: "I pulled a Dell Latitude 5501 from an e-waste bin and turned it into a triple-boot machine running macOS, Linux, and Windows."
+publishDate: 2026-03-14
+image: triple-boot-ewaste-laptop.png
+tags: ["e-waste", "hackintosh", "linux"]
+relatedPosts:
+  - nobara-gaming-vm
+---
+
+My daily driver is a Dell Latitude 5501 I pulled out of an e-waste bin at a place I used to work. It has an i7-9850H, a GeForce MX150, and a 15.6" 1080p IPS display. It originally came with 8GB of RAM and one 256GB NVMe drive. Very normal business laptop, which is exactly why it's good.
+
+One day a business dropped off about seven of these, all slightly different. Two coworkers grabbed one each. I took the rest. I gave one to my roommate's brother, kept the best one for myself, and sold the other three. Not bad for stuff that was headed to recycling.
+
+I upgraded it to 32GB of RAM and filled every storage slot: two M.2 NVMe SSDs and a 2.5" SATA SSD in the drive bay. The second M.2 slot is supposed to take a short drive. Mine was full-size. I shoved it in there and forced the back panel on. It still works.
+
+Each drive has its own operating system:
+
+- **macOS Tahoe** on one M.2, installed via OpenCore
+- **Fedora 43 KDE** on the other M.2
+- **Windows 11** on the 2.5" SATA SSD
+
+Three operating systems, three drives, one laptop that someone threw away.
+
+Fedora 43 KDE is the one I use most. It's my main setup for development and general use. I like KDE a lot now. It looks good, gets out of my way, and is easy to tune. I also set up a gaming VM with [Nobara KDE](/blog/nobara-gaming-vm) recently.
+
+macOS is there because I like using it, I need it for cross-platform web testing, and Hackintoshing is fun. Getting macOS running on random PC hardware still feels wrong in a good way. It isn't 100% finished though. Wi-Fi, Bluetooth, USB, speakers, webcam, mic, touchpad, and keyboard all work. External display out still doesn't. And on newer macOS versions the MX150 might as well not exist because Nvidia support is dead.
+
+Windows is there for when I have to do something Windows-only. I barely use it. Every time I boot it, it seems like it wants to update for 10 minutes before I can do anything. I still hate that.
+
+The best part of putting each OS on its own physical drive is that they stay out of each other's way. No bootloader nonsense, no partition juggling, no weird accidents. I just pick a drive from the boot menu and move on.
+
+For a laptop that came out of a bin, this thing is stupidly capable. 32GB of RAM, three SSDs, an i7-9850H, and it handles coding, VMs, and a stupid number of browser tabs without a problem. All it really needed was upgrades and someone willing to tinker with it.
+
+If you're into this kind of stuff, keep an eye on e-waste bins, surplus sales, and business liquidations. There is way better hardware in those places than most people think.

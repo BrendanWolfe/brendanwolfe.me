@@ -1,4 +1,4 @@
-import { defineCollection } from 'astro:content';
+import { defineCollection, reference } from 'astro:content';
 import { file, glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 import { readFile } from 'node:fs/promises';
@@ -71,8 +71,9 @@ const blog = defineCollection({
     title: z.string(),
     description: z.string(),
     publishDate: z.coerce.date(),
-    category: z.string(),
     image: z.string(),
+    tags: z.array(z.string()).min(1),
+    relatedPosts: z.array(reference('blog')).default([]),
     draft: z.boolean().default(false),
   }),
 });

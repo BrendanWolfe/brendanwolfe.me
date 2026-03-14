@@ -1,12 +1,12 @@
 ---
 import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
-import { formatBlogDate, getBlogCategories } from '../lib/blog';
+import { formatBlogDate, getBlogTags } from '../lib/blog';
 import { getBlogPosts, getSiteSettings } from '../lib/content';
 
 const siteSettings = await getSiteSettings();
 const posts = await getBlogPosts();
-const categories = getBlogCategories(posts);
+const tags = getBlogTags(posts);
 const pageDescription = 'Useful notes, small tutorials, and the occasional write-up from whatever I am working on.';
 ---
 
@@ -30,31 +30,62 @@ const pageDescription = 'Useful notes, small tutorials, and the occasional write
       <div class="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
         <div class="flex flex-col gap-2.5">
           <p class="font-sans text-[0.68rem] font-bold uppercase tracking-[0.22em] text-bw-muted">
-            Category
+            Tags
           </p>
-          <div id="blog-category-filters" class="flex flex-wrap gap-x-5 gap-y-2">
-            <button
-              type="button"
-              data-blog-filter="All"
-              aria-pressed="true"
-              class="blog-filter-button cursor-pointer border-none bg-transparent px-0 py-0 font-sans text-sm font-bold text-bw-heading transition-colors hover:text-bw-heading focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bw-accent"
-            >
-              All
-            </button>
-            {categories.map((category) => (
+          <div id="blog-tag-filter" class="w-full">
+            <div class="relative w-[11rem] max-w-full">
               <button
+                id="blog-tag-trigger"
                 type="button"
-                data-blog-filter={category}
-                aria-pressed="false"
-                class="blog-filter-button cursor-pointer border-none bg-transparent px-0 py-0 font-sans text-sm font-bold text-bw-muted transition-colors hover:text-bw-heading focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bw-accent"
+                aria-expanded="false"
+                aria-controls="blog-tag-menu"
+                class="inline-flex w-full items-center justify-between gap-5 rounded-2xl border border-bw-border bg-transparent px-4 py-3 text-left font-sans text-sm font-bold text-bw-heading transition-colors hover:border-bw-heading focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bw-accent"
               >
-                {category}
+                <span>Add tags</span>
+                <span
+                  id="blog-tag-trigger-caret"
+                  aria-hidden="true"
+                  class="text-sm leading-none text-bw-muted transition-transform duration-200"
+                >
+                  ▾
+                </span>
               </button>
-            ))}
+
+              <div
+                id="blog-tag-menu"
+                class="absolute left-0 top-full z-20 mt-2 hidden w-[200%] max-w-[56rem] min-w-full overflow-hidden rounded-2xl border border-bw-border bg-bw-surface shadow-[0_16px_40px_rgba(0,0,0,0.28)]"
+              >
+                <div class="max-h-72 overflow-y-auto p-2">
+                  {tags.map((tag) => (
+                    <button
+                      type="button"
+                      data-blog-tag-option={tag}
+                      aria-pressed="false"
+                      class="blog-tag-option flex w-full items-center justify-between rounded-xl px-3 py-2 text-left font-sans text-sm font-bold text-bw-muted transition-colors hover:bg-black/10 hover:text-bw-heading focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bw-accent"
+                    >
+                      <span>{tag}</span>
+                      <span aria-hidden="true" class="text-base leading-none opacity-0 transition-opacity">+</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-3 flex max-w-4xl flex-wrap items-center gap-3">
+              <div id="blog-selected-tags" class="flex flex-wrap gap-2"></div>
+              <button
+                id="blog-clear-tags"
+                type="button"
+                class="hidden font-sans text-xs font-bold text-bw-sub underline decoration-bw-border/70 underline-offset-4 transition-colors hover:text-bw-heading focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bw-accent"
+              >
+                Clear all
+              </button>
+            </div>
+            <p id="blog-selected-tags-empty" class="mt-1 text-sm text-bw-muted">Showing all posts.</p>
           </div>
         </div>
 
-        <label class="flex w-full max-w-[12rem] flex-col gap-2">
+        <label class="flex w-full max-w-48 flex-col gap-2">
           <span class="font-sans text-[0.68rem] font-bold uppercase tracking-[0.22em] text-bw-muted">Sort</span>
           <select
             id="blog-sort"
@@ -72,25 +103,22 @@ const pageDescription = 'Useful notes, small tutorials, and the occasional write
             {posts.map((post) => (
               <article
                 data-blog-card
-                data-category={post.data.category}
+                data-tags={post.data.tags.join('|')}
                 data-publish-date={post.data.publishDate.toISOString()}
-                class="group flex h-full flex-col rounded-2xl border border-bw-border bg-bw-surface p-5 transition-transform duration-200 hover:-translate-y-1"
+                class="group flex h-full flex-col overflow-hidden rounded-2xl border border-bw-border bg-bw-surface p-5 transition-transform duration-200 hover:-translate-y-1"
               >
-                <a href={`/blog/${post.id}/`} class="block">
+                <a href={`/blog/${post.id}/`} class="-mx-5 -mt-5 mb-5 block overflow-hidden">
                   <Image
                     src={post.data.image}
                     alt={`Featured image for ${post.data.title}`}
                     width={960}
                     format="webp"
                     densities={[1.5, 2]}
-                    class="mb-5 h-52 w-full rounded-lg border border-bw-border object-cover"
+                    class="h-52 w-full border-b border-bw-border object-cover"
                   />
                 </a>
 
-                <div class="mb-4 flex items-center justify-between gap-3 text-sm">
-                  <span class="font-sans font-bold uppercase tracking-[0.08em] text-bw-muted">
-                    {post.data.category}
-                  </span>
+                <div class="mb-4 text-sm">
                   <time datetime={post.data.publishDate.toISOString()} class="text-bw-muted">
                     {formatBlogDate(post.data.publishDate)}
                   </time>
@@ -106,6 +134,13 @@ const pageDescription = 'Useful notes, small tutorials, and the occasional write
                     </a>
                   </h2>
                   <p class="text-bw-body">{post.data.description}</p>
+                  <div class="mt-2 flex flex-wrap gap-2">
+                    {post.data.tags.map((tag) => (
+                      <span class="rounded-full border border-bw-border/80 bg-black/10 px-2.5 py-1 font-sans text-[0.72rem] font-bold text-bw-muted">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
                 </div>
 
                 <div class="mt-6">
@@ -122,8 +157,8 @@ const pageDescription = 'Useful notes, small tutorials, and the occasional write
           </div>
 
           <div id="blog-empty-state" class="hidden py-6" aria-live="polite">
-            <p class="font-sans text-base font-bold text-bw-heading">No posts in that category yet.</p>
-            <p class="mt-2 text-sm text-bw-muted">Try another filter or switch the sort order.</p>
+            <p class="font-sans text-base font-bold text-bw-heading">No posts match those tags yet.</p>
+            <p class="mt-2 text-sm text-bw-muted">Try removing a tag or switch the sort order.</p>
           </div>
         </>
       ) : (
@@ -138,13 +173,25 @@ const pageDescription = 'Useful notes, small tutorials, and the occasional write
 
 <script is:inline>
   (() => {
-    const filterContainer = document.querySelector('#blog-category-filters');
+    const filterContainer = document.querySelector('#blog-tag-filter');
+    const trigger = document.querySelector('#blog-tag-trigger');
+    const caret = document.querySelector('#blog-tag-trigger-caret');
+    const menu = document.querySelector('#blog-tag-menu');
+    const selectedTagsContainer = document.querySelector('#blog-selected-tags');
+    const clearTagsButton = document.querySelector('#blog-clear-tags');
+    const selectedTagsEmptyState = document.querySelector('#blog-selected-tags-empty');
     const sortSelect = document.querySelector('#blog-sort');
     const grid = document.querySelector('#blog-post-grid');
     const emptyState = document.querySelector('#blog-empty-state');
 
     if (
       !(filterContainer instanceof HTMLDivElement) ||
+      !(trigger instanceof HTMLButtonElement) ||
+      !(caret instanceof HTMLSpanElement) ||
+      !(menu instanceof HTMLDivElement) ||
+      !(selectedTagsContainer instanceof HTMLDivElement) ||
+      !(clearTagsButton instanceof HTMLButtonElement) ||
+      !(selectedTagsEmptyState instanceof HTMLParagraphElement) ||
       !(sortSelect instanceof HTMLSelectElement) ||
       !(grid instanceof HTMLDivElement) ||
       !(emptyState instanceof HTMLDivElement)
@@ -152,7 +199,7 @@ const pageDescription = 'Useful notes, small tutorials, and the occasional write
       return;
     }
 
-    const buttons = [...filterContainer.querySelectorAll('[data-blog-filter]')].filter(
+    const buttons = [...filterContainer.querySelectorAll('[data-blog-tag-option]')].filter(
       (button) => button instanceof HTMLButtonElement,
     );
     const cards = [...grid.querySelectorAll('[data-blog-card]')].filter(
@@ -163,15 +210,58 @@ const pageDescription = 'Useful notes, small tutorials, and the occasional write
       return;
     }
 
-    let activeCategory = 'All';
+    const activeTags = new Set();
+    let isMenuOpen = false;
+
+    const setMenuState = (nextOpen) => {
+      isMenuOpen = nextOpen;
+      menu.classList.toggle('hidden', !isMenuOpen);
+      trigger.setAttribute('aria-expanded', isMenuOpen ? 'true' : 'false');
+      caret.classList.toggle('rotate-180', isMenuOpen);
+    };
 
     const setButtonState = () => {
       buttons.forEach((button) => {
-        const isActive = button.dataset.blogFilter === activeCategory;
+        const tag = button.dataset.blogTagOption ?? '';
+        const isActive = activeTags.has(tag);
+        const icon = button.querySelector('span:last-child');
         button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+        button.classList.toggle('bg-black/10', isActive);
         button.classList.toggle('text-bw-heading', isActive);
         button.classList.toggle('text-bw-muted', !isActive);
+        if (icon instanceof HTMLSpanElement) {
+          icon.textContent = isActive ? '✓' : '+';
+          icon.classList.toggle('opacity-100', isActive);
+          icon.classList.toggle('opacity-0', !isActive);
+        }
       });
+    };
+
+    const renderSelectedTags = () => {
+      selectedTagsContainer.innerHTML = '';
+
+      if (activeTags.size === 0) {
+        selectedTagsEmptyState.classList.remove('hidden');
+        clearTagsButton.classList.add('hidden');
+        trigger.firstElementChild && (trigger.firstElementChild.textContent = 'Add tags');
+        return;
+      }
+
+      selectedTagsEmptyState.classList.add('hidden');
+      clearTagsButton.classList.remove('hidden');
+      trigger.firstElementChild && (trigger.firstElementChild.textContent = 'Add more tags');
+
+      [...activeTags]
+        .sort((left, right) => left.localeCompare(right))
+        .forEach((tag) => {
+          const pill = document.createElement('button');
+          pill.type = 'button';
+          pill.dataset.selectedTag = tag;
+          pill.className =
+            'inline-flex items-center gap-2 rounded-full border border-bw-border bg-black/10 px-3 py-1.5 font-sans text-xs font-bold text-bw-heading transition-colors hover:border-bw-heading focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bw-accent';
+          pill.innerHTML = `<span>${tag}</span><span aria-hidden="true" class="text-sm leading-none">×</span>`;
+          selectedTagsContainer.append(pill);
+        });
     };
 
     const applyFilters = () => {
@@ -182,25 +272,90 @@ const pageDescription = 'Useful notes, small tutorials, and the occasional write
       });
 
       sortedCards.forEach((card) => {
-        const matchesCategory = activeCategory === 'All' || card.dataset.category === activeCategory;
-        card.hidden = !matchesCategory;
+        const cardTags = (card.dataset.tags ?? '').split('|').filter(Boolean);
+        const matchesTags =
+          activeTags.size === 0 || [...activeTags].every((tag) => cardTags.includes(tag));
+        card.hidden = !matchesTags;
         grid.append(card);
       });
 
       emptyState.classList.toggle('hidden', sortedCards.some((card) => !card.hidden));
     };
 
+    const syncUi = () => {
+      setButtonState();
+      renderSelectedTags();
+      applyFilters();
+    };
+
+    trigger.addEventListener('click', () => {
+      setMenuState(!isMenuOpen);
+    });
+
     buttons.forEach((button) => {
       button.addEventListener('click', () => {
-        activeCategory = button.dataset.blogFilter ?? 'All';
-        setButtonState();
-        applyFilters();
+        const tag = button.dataset.blogTagOption ?? '';
+
+        if (!tag) {
+          return;
+        }
+
+        if (activeTags.has(tag)) {
+          activeTags.delete(tag);
+        } else {
+          activeTags.add(tag);
+        }
+
+        syncUi();
       });
+    });
+
+    selectedTagsContainer.addEventListener('click', (event) => {
+      const target = event.target;
+
+      if (!(target instanceof HTMLElement)) {
+        return;
+      }
+
+      const button = target.closest('[data-selected-tag]');
+
+      if (!(button instanceof HTMLButtonElement)) {
+        return;
+      }
+
+      const tag = button.dataset.selectedTag ?? '';
+
+      if (!tag) {
+        return;
+      }
+
+      activeTags.delete(tag);
+      syncUi();
+    });
+
+    clearTagsButton.addEventListener('click', () => {
+      activeTags.clear();
+      syncUi();
     });
 
     sortSelect.addEventListener('change', applyFilters);
 
-    setButtonState();
-    applyFilters();
+    document.addEventListener('click', (event) => {
+      const target = event.target;
+
+      if (!(target instanceof Node) || filterContainer.contains(target)) {
+        return;
+      }
+
+      setMenuState(false);
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        setMenuState(false);
+      }
+    });
+
+    syncUi();
   })();
 </script>

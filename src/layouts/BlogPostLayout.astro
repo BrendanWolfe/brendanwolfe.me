@@ -8,12 +8,13 @@ import { formatBlogDate } from '../lib/blog';
 
 interface Props {
   post: CollectionEntry<'blog'>;
+  relatedPosts?: CollectionEntry<'blog'>[];
 }
 
-const { post } = Astro.props;
+const { post, relatedPosts = [] } = Astro.props;
 const siteSettings = await getSiteSettings();
 const formattedPublishDate = formatBlogDate(post.data.publishDate);
-const featuredImage = getBlogImage(post.id, post.data.image);
+const featuredImage = getBlogImage(post.data.image);
 ---
 
 <Layout
@@ -41,11 +42,7 @@ const featuredImage = getBlogImage(post.id, post.data.image);
         <span>Back to blog</span>
       </a>
 
-      <div class="mb-4 flex flex-wrap items-center justify-center gap-3 text-sm">
-        <span class="font-sans font-bold uppercase tracking-[0.08em] text-bw-muted">
-          {post.data.category}
-        </span>
-        <span aria-hidden="true" class="text-bw-border">/</span>
+      <div class="mb-4 text-sm">
         <time datetime={post.data.publishDate.toISOString()} class="text-bw-muted">
           {formattedPublishDate}
         </time>
@@ -57,6 +54,13 @@ const featuredImage = getBlogImage(post.id, post.data.image);
       <p class="mt-3 max-w-2xl text-base leading-relaxed text-bw-body sm:text-lg">
         {post.data.description}
       </p>
+      <div class="mt-5 flex max-w-2xl flex-wrap justify-center gap-2">
+        {post.data.tags.map((tag) => (
+          <span class="rounded-full border border-bw-border/80 bg-black/20 px-3 py-1.5 font-sans text-[0.72rem] font-bold text-bw-heading">
+            {tag}
+          </span>
+        ))}
+      </div>
     </div>
   </div>
 
@@ -65,4 +69,62 @@ const featuredImage = getBlogImage(post.id, post.data.image);
       <slot />
     </div>
   </article>
+
+  {
+    relatedPosts.length > 0 && (
+      <section class="mx-auto max-w-6xl border-t border-bw-border/80 py-8 md:py-10">
+        <p class="font-sans text-xs font-bold uppercase tracking-[0.12em] text-bw-muted">Related posts</p>
+        <div class="mt-4 grid gap-8 md:grid-cols-2 lg:gap-10 xl:grid-cols-3">
+          {relatedPosts.map((relatedPost) => (
+            <article class="group flex h-full flex-col overflow-hidden rounded-2xl border border-bw-border bg-bw-surface p-5 transition-transform duration-200 hover:-translate-y-1">
+              <a href={`/blog/${relatedPost.id}/`} class="-mx-5 -mt-5 mb-5 block overflow-hidden">
+                <Image
+                  src={getBlogImage(relatedPost.data.image)}
+                  alt={`Featured image for ${relatedPost.data.title}`}
+                  width={960}
+                  format="webp"
+                  densities={[1.5, 2]}
+                  class="h-52 w-full border-b border-bw-border object-cover"
+                />
+              </a>
+
+              <div class="mb-4 text-sm">
+                <time datetime={relatedPost.data.publishDate.toISOString()} class="text-bw-muted">
+                  {formatBlogDate(relatedPost.data.publishDate)}
+                </time>
+              </div>
+
+              <div class="flex flex-1 flex-col gap-3">
+                <h2 class="font-display text-[1.7rem] font-extrabold leading-tight tracking-[-0.04em] text-bw-heading">
+                  <a
+                    href={`/blog/${relatedPost.id}/`}
+                    class="no-underline transition-colors group-hover:text-bw-accent-hover focus-visible:text-bw-accent-hover"
+                  >
+                    {relatedPost.data.title}
+                  </a>
+                </h2>
+                <div class="mt-2 flex flex-wrap gap-2">
+                  {relatedPost.data.tags.map((tag) => (
+                    <span class="rounded-full border border-bw-border/80 bg-black/10 px-2.5 py-1 font-sans text-[0.72rem] font-bold text-bw-muted">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div class="mt-6">
+                <a
+                  href={`/blog/${relatedPost.id}/`}
+                  class="inline-flex items-center gap-2 font-sans text-sm font-bold text-bw-sub no-underline transition-colors hover:text-bw-heading focus-visible:text-bw-heading"
+                >
+                  <span>Read post</span>
+                  <span aria-hidden="true">→</span>
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+    )
+  }
 </Layout>

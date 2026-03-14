@@ -1,0 +1,44 @@
+---
+title: "The E-Waste Bin Was a Goldmine"
+description: "How I made thousands selling old tech other people threw away, and built my entire home lab from the leftovers."
+publishDate: 2026-03-14
+tags: ["homelab", "e-waste", "proxmox"]
+image: ewaste-bin.png
+draft: false
+---
+
+I used to work at a place that had an e-waste bin near the back of the store. Customers could drop off old electronics. Laptops, phones, printers, TVs, whatever they didn't want anymore. It was all supposed to go to recycling eventually. But I made a habit of going through that bin pretty regularly, because a lot of the stuff in there was perfectly fine.
+
+Over time I turned it into a solid side hustle. I'd pull laptops out of the bin, throw a new battery in, swap in an SSD if it had a spinning drive, install a fresh copy of Windows 11, and list it on Facebook Marketplace. I kept a stash of chargers I'd collected from previous drop-offs so when a laptop came in without one I could usually dig through and find something that fit. A little cleanup, maybe $40-60 in parts, and I'd have a totally functional laptop ready to sell. I made well over two grand in pure profit doing this.
+
+Printers were another easy sell. Half the time the printer was fine, the person just didn't want to buy ink anymore. So they'd drop off the whole thing. I'd find ink for it or confirm it still had some, clean it up, and flip it.
+
+A big chunk of what came through was businesses rotating out hardware. We'd get a stack of laptops or small form factor PCs only like seven years old. Still completely usable. Even the ones that weren't worth selling whole had good parts in them. DDR4 RAM, decent CPUs, stuff I could pull and either use or sell separately.
+
+## The Whole Team Was In On It
+
+Pretty much everyone who worked there would dig through the bin every now and then. When something nice came in, like a newer MacBook, a GPU, or a NAS, it could turn into a coin toss, rock paper scissors, or a foam die throw to decide who gets it. Our manager always got first dibs, but not because he pulled rank. Everyone just respected him. For the rest of us we'd usually take turns on the good stuff.
+
+In theory, anyway. Someone would have a day off and a nice item comes in. Turn skipped. Someone's closing or opening alone and a good piece shows up. Swiped without anyone knowing. And if someone was just an asshole (you know who you are) they'd take everything and never take turns. But it's not like we were technically allowed to be doing any of this in the first place, so nobody could really complain. The whole thing was an open secret in the store, just not one you'd want getting back to corporate or the e-waste company whose bin it actually was.
+
+Some of the best finds I got: a 2070 Super, which was wild. One time someone dropped off a big 4K smart TV that wouldn't brighten up. I took it home, cracked it open, found one blown capacitor on the board. Ordered a pack of replacements off Amazon for a few bucks, swapped it out, and now I had a 57-inch 4K TV for basically nothing.
+
+## Most of It Wasn't Even Broken
+
+That's the thing that always got me. Most of the stuff in the bin wasn't broken. People just didn't know what they had, or didn't care. If something doesn't fall within someone's area of knowledge, they don't think about it. A laptop that won't hold a charge isn't broken, it needs a battery. A PC that feels slow just needs an SSD. But most people see something that doesn't work like it did on day one and decide it's done. Time to buy new. A lot of it was literally just "got something newer, don't need this anymore."
+
+My entire Proxmox home lab is running on hardware I pulled from that bin. Machines that someone decided were trash, now humming along 24/7 running services for me.
+
+## Apple Though
+
+Apple devices were the most frustrating thing to deal with out of that bin. Not because the hardware was bad. Apple actually builds solid stuff that holds up. A four-year-old MacBook with a cracked screen? Hook it up to a monitor, run it in clamshell mode, totally fine. An iPhone with a cracked display is usually a straightforward repair.
+
+But almost every single Apple device that came through was still locked to someone's account. Like 99% of them. Once Activation Lock is on there, that's it. The device is a paperweight. Doesn't matter that the hardware works. If the previous owner didn't sign out of their Apple ID before dropping it off, and they almost never did, it's done. The one saving grace is that if the original owner removes the lock later the device will work again. So I kept a few of the nicer locked ones and check them periodically to see if the old owner ever took them off. Still waiting on most of them.
+
+Activation Lock was also a massive pain point on the repair side. To use OEM Apple parts you have to run GSX, and that requires Find My Device to be off. Turning off Find My requires the account password. Basically nobody knew their password. Half of them didn't even know what model phone they were handing me. The phone they paid $1,200 for and broke in five months. So what should be a 30-45 minute screen repair turns into hours, sometimes days of back and forth trying to get them to figure out their credentials. Some customers just gave up and bought a new phone instead. Which is honestly Apple's goal here. And then lo and behold, the old phone with the cracked screen ends up right back in an e-waste bin.
+
+Recent Android devices have started doing the same thing too. If you don't log out before you factory reset the phone, it still asks for the account password to do anything. Bricked.
+
+## Sign Out of Your Stuff
+
+If you're getting rid of an old device, just take a second to think about it before you toss it. Swap the battery. Try a fresh install. See if someone on Marketplace could use it. And if it's an Apple or Android device, sign out of your account first. You're not protecting yourself by leaving it locked. You're just making sure a perfectly good machine ends up in a shredder instead of on someone's desk.

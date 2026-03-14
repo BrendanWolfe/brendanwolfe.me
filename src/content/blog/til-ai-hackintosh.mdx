@@ -1,0 +1,23 @@
+---
+title: "TIL: AI Is Really Good at Hackintoshing"
+description: "Using AI as an OpenCore troubleshooting loop made a Hackintosh install dramatically faster and less annoying."
+publishDate: 2026-03-14
+image: til-ai-hackintosh.png
+tags: ["TIL", "AI", "hackintosh"]
+---
+
+I've done Hackintosh installs on and off for years, and they always turn into the same kind of project. Build the installer, tweak OpenCore, change a few things in `config.plist`, read a bunch of Dortania docs, test, fail, repeat until it finally boots.
+
+I was in the middle of doing that for a laptop and getting nowhere manually, so I took a break and went back to coding with Codex. At some point it clicked that this was basically the same kind of problem: lots of documentation, lots of logs, lots of tiny configuration details, and a very specific end goal.
+
+So I changed my workflow.
+
+I started on a desktop that already had macOS on it. Codex would edit the EFI files there, then I'd copy them over to the installer USB, move the USB to the laptop, and test. If it failed, I'd grab the logs from the USB and hand them back. It would go through them and usually find the exact issue right away, or tell me the failure was already past the OpenCore stage so there was nothing useful in those logs. That alone cut out a bunch of annoying guesswork.
+
+Once I got the laptop actually booted into macOS, it got even better. At that point it could inspect live hardware info, check what configs were really loading, and help target the smaller problems one by one. USB-C, sound, webcam, Wi-Fi. I had to use Ethernet at first, but it worked through all of it. The nice part was that I barely had to do anything manually. It could pull the system info it needed straight from the machine instead of making me hunt it down myself.
+
+I kept the first working EFI on the macOS drive, but I still used the USB as my safe testbed until I was sure everything was stable. Once it all looked good, I moved the final EFI over and backed it up with the rest of my machines' EFIs on my NAS.
+
+What impressed me most was the research speed. It was doing the same digging I would normally do for an hour in a few minutes, then immediately applying what it found to the actual config I was using. It felt less like "AI magic" and more like having a very patient super Google that could also edit files and reason through logs.
+
+The bigger takeaway for me is that AI got a lot better very fast. A few years ago, every time I tried using it for technical stuff, it felt kind of mediocre. Sometime around mid-to-late 2025 that changed. Now I reach for it constantly. In this case it turned one of the most tedious troubleshooting workflows I know into something that was actually pretty manageable.
