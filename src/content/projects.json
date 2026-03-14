@@ -1,6 +1,6 @@
 [
   {
-    "title": "brendanwolfe.me",
+    "title": "Portfolio",
     "description": "A fast, accessible personal portfolio built with Astro and Tailwind CSS.",
     "image": "brendanwolfe.me.png",
     "tags": ["Astro", "Tailwind CSS", "Accessibility"],
@@ -8,11 +8,19 @@
     "githubUrl": "https://github.com/BrendanWolfe/brendanwolfe.me"
   },
   {
-    "title": "Highnoon.co",
+    "title": "Highnoon",
     "description": "A fast beautiful website for the digital marketing company I worked at",
     "image": "highnoon.co.png",
     "tags": ["React", "Gatsby", "Prismic CMS", "CSS Modules", "BEM CSS"],
     "liveUrl": "https://web.archive.org/web/20201101013630/https://highnoon.co/",
+    "githubUrl": null
+  },
+  {
+    "title": "Media Alpha",
+    "description": "A very animated WordPress website with lots of interactive elements, built with ACF dynamic layouts to make a simple page builder",
+    "image": "media-alpha.com.png",
+    "tags": ["PHP", "WordPress", "GSAP", "CSS Animations"],
+    "liveUrl": "https://mediaalpha.com/",
     "githubUrl": null
   },
   {
