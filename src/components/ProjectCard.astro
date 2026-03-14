@@ -33,7 +33,15 @@ const { title, description, image, tags, liveUrl, githubUrl } = Astro.props;
   </ul>
   <div class="flex gap-3 mt-auto">
     { liveUrl && (
-      <ButtonLink href={liveUrl} variant="primary" size="compact">Live Demo</ButtonLink>
+      <ButtonLink
+        href={liveUrl}
+        variant="primary"
+        size="compact"
+        umamiEvent="project-live-demo-click"
+        umamiEventData={{ project: title }}
+      >
+        Live Demo
+      </ButtonLink>
     )}
 
     { githubUrl && (
@@ -41,8 +49,8 @@ const { title, description, image, tags, liveUrl, githubUrl } = Astro.props;
         href={githubUrl}
         variant="outline"
         size="compact"
-        umamiEvent="github-link-click"
-        umamiEventData={{ location: 'project-card', project: title }}
+        umamiEvent="project-github-click"
+        umamiEventData={{ project: title }}
       >
         GitHub
       </ButtonLink>
