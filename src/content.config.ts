@@ -1,5 +1,5 @@
 import { defineCollection } from 'astro:content';
-import { file } from 'astro/loaders';
+import { file, glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 import { readFile } from 'node:fs/promises';
 
@@ -65,8 +65,21 @@ const siteSettings = defineCollection({
   }),
 });
 
+const blog = defineCollection({
+  loader: glob({ base: './src/content/blog', pattern: '**/*.{md,mdx}' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    publishDate: z.coerce.date(),
+    category: z.string(),
+    image: z.string(),
+    draft: z.boolean().default(false),
+  }),
+});
+
 export const collections = {
   navItems,
   projects,
   siteSettings,
+  blog,
 };

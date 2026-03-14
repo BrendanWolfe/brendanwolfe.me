@@ -1,0 +1,42 @@
+---
+title: 'Docker in Proxmox: My Komodo Setup'
+description: Some notes about how I like to set up docker on my proxmox cluster.
+publishDate: 2026-03-11
+category: Proxmox
+image: featured.png
+draft: false
+---
+
+There are plenty of ways to organize your Docker setup in Proxmox, but this is what I've landed on and I'm pretty happy with it.
+
+## Getting Docker Running in an LXC
+
+Setting up Docker inside a Proxmox LXC isn't quite as simple as just `apt install docker` — there are some annoying bits around nesting, permissions, and container features that you need to get right first. Instead of doing all that manually, I'd recommend using the [Proxmox VE community scripts](https://community-scripts.org/scripts/docker). They handle spinning up the LXC and configuring everything Docker needs to run properly inside it.
+
+You run one command from the Proxmox shell:
+
+```bash
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/ct/docker.sh)"
+```
+
+It'll walk you through the options — default or advanced setup, privileged or unprivileged, resource allocation, and it'll even offer to install Docker Compose V2 and Portainer if you want them. If you go privileged, it automatically sets up USB passthrough too. The whole thing takes a couple minutes and you end up with a clean Docker-ready LXC without having to dig through Proxmox docs to figure out which flags you forgot.
+
+I run this on each node in my cluster to get a Docker LXC on every one of them.
+
+## The Setup
+
+I use Komodo as my management interface for Docker. The main thing that sold me is the periphery container — it makes managing Docker across multiple servers dead simple. It's the Proxmox-like experience my Docker workflow was missing. By that I mean one interface, multiple nodes, all your services visible in one place.
+
+The way it works: I have a Docker-dedicated LXC on each node in my Proxmox cluster, and each one runs a Komodo Periphery instance. Komodo Core lives on one of those LXCs. That's it. I get a single UI to manage containers across every node.
+
+## Deploying a Stack
+ 
+Once everything's connected, deploying something new is pretty painless. You click "New Stack," pick which server you want it on, and paste in your compose file. That's really it.
+ 
+Komodo gives you the option to manage stacks through the UI or file-based. Both work, but I stick with the UI method — it's the quickest way to get something up and make changes later without SSHing in.
+ 
+For the file path, I keep everything organized under `/opt/stacks/[stack-name]/` on each LXC. So if I'm deploying Jellyfin, the compose and any related files live in `/opt/stacks/jellyfin/`. Keeps things predictable and easy to find if I ever need to poke around on the host directly.
+
+## Why I Moved Away from Portainer
+
+I was using Portainer before this. It has similar multi-node features, but in my experience it just wasn't as reliable. And Portainer's UI is rough compared to Komodo — night and day difference honestly. Komodo also has some features Portainer doesn't.

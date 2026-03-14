@@ -1,0 +1,206 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '../layouts/Layout.astro';
+import { formatBlogDate, getBlogCategories } from '../lib/blog';
+import { getBlogPosts, getSiteSettings } from '../lib/content';
+
+const siteSettings = await getSiteSettings();
+const posts = await getBlogPosts();
+const categories = getBlogCategories(posts);
+const pageDescription = 'Useful notes, small tutorials, and the occasional write-up from whatever I am working on.';
+---
+
+<Layout
+  title="Blog"
+  description={pageDescription}
+  navBrandText={siteSettings.navBrandText}
+  githubUrl={siteSettings.githubUrl}
+>
+  <div class="flex flex-col gap-10 py-10 md:gap-14 md:py-14">
+    <section class="flex flex-col gap-4 pt-2">
+      <h1 class="max-w-3xl font-display text-5xl font-extrabold tracking-[-0.055em] text-bw-accent sm:text-6xl">
+        Blog
+      </h1>
+      <p class="max-w-3xl text-lg leading-relaxed text-bw-body">
+        Useful notes, small tutorials, and the occasional write-up from whatever I am working on.
+      </p>
+    </section>
+
+    <section class="flex flex-col gap-6">
+      <div class="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+        <div class="flex flex-col gap-2.5">
+          <p class="font-sans text-[0.68rem] font-bold uppercase tracking-[0.22em] text-bw-muted">
+            Category
+          </p>
+          <div id="blog-category-filters" class="flex flex-wrap gap-x-5 gap-y-2">
+            <button
+              type="button"
+              data-blog-filter="All"
+              aria-pressed="true"
+              class="blog-filter-button cursor-pointer border-none bg-transparent px-0 py-0 font-sans text-sm font-bold text-bw-heading transition-colors hover:text-bw-heading focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bw-accent"
+            >
+              All
+            </button>
+            {categories.map((category) => (
+              <button
+                type="button"
+                data-blog-filter={category}
+                aria-pressed="false"
+                class="blog-filter-button cursor-pointer border-none bg-transparent px-0 py-0 font-sans text-sm font-bold text-bw-muted transition-colors hover:text-bw-heading focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bw-accent"
+              >
+                {category}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <label class="flex w-full max-w-[12rem] flex-col gap-2">
+          <span class="font-sans text-[0.68rem] font-bold uppercase tracking-[0.22em] text-bw-muted">Sort</span>
+          <select
+            id="blog-sort"
+            class="cursor-pointer border-0 border-b border-bw-border bg-transparent px-0 py-2 font-sans text-sm font-bold text-bw-heading focus-visible:outline-none focus-visible:ring-0"
+          >
+            <option value="newest">Newest first</option>
+            <option value="oldest">Oldest first</option>
+          </select>
+        </label>
+      </div>
+
+      {posts.length > 0 ? (
+        <>
+          <div id="blog-post-grid" class="grid gap-8 md:grid-cols-2 lg:gap-10">
+            {posts.map((post) => (
+              <article
+                data-blog-card
+                data-category={post.data.category}
+                data-publish-date={post.data.publishDate.toISOString()}
+                class="group flex h-full flex-col rounded-2xl border border-bw-border bg-bw-surface p-5 transition-transform duration-200 hover:-translate-y-1"
+              >
+                <a href={`/blog/${post.id}/`} class="block">
+                  <Image
+                    src={post.data.image}
+                    alt={`Featured image for ${post.data.title}`}
+                    width={960}
+                    format="webp"
+                    densities={[1.5, 2]}
+                    class="mb-5 h-52 w-full rounded-lg border border-bw-border object-cover"
+                  />
+                </a>
+
+                <div class="mb-4 flex items-center justify-between gap-3 text-sm">
+                  <span class="font-sans font-bold uppercase tracking-[0.08em] text-bw-muted">
+                    {post.data.category}
+                  </span>
+                  <time datetime={post.data.publishDate.toISOString()} class="text-bw-muted">
+                    {formatBlogDate(post.data.publishDate)}
+                  </time>
+                </div>
+
+                <div class="flex flex-1 flex-col gap-3">
+                  <h2 class="font-display text-[1.7rem] font-extrabold leading-tight tracking-[-0.04em] text-bw-heading">
+                    <a
+                      href={`/blog/${post.id}/`}
+                      class="no-underline transition-colors group-hover:text-bw-accent-hover focus-visible:text-bw-accent-hover"
+                    >
+                      {post.data.title}
+                    </a>
+                  </h2>
+                  <p class="text-bw-body">{post.data.description}</p>
+                </div>
+
+                <div class="mt-6">
+                  <a
+                    href={`/blog/${post.id}/`}
+                    class="inline-flex items-center gap-2 font-sans text-sm font-bold text-bw-sub no-underline transition-colors hover:text-bw-heading focus-visible:text-bw-heading"
+                  >
+                    <span>Read post</span>
+                    <span aria-hidden="true">→</span>
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          <div id="blog-empty-state" class="hidden py-6" aria-live="polite">
+            <p class="font-sans text-base font-bold text-bw-heading">No posts in that category yet.</p>
+            <p class="mt-2 text-sm text-bw-muted">Try another filter or switch the sort order.</p>
+          </div>
+        </>
+      ) : (
+        <div class="py-6">
+          <p class="font-sans text-base font-bold text-bw-heading">No posts yet.</p>
+          <p class="mt-2 text-sm text-bw-muted">The page is ready. It just needs the first entry.</p>
+        </div>
+      )}
+    </section>
+  </div>
+</Layout>
+
+<script is:inline>
+  (() => {
+    const filterContainer = document.querySelector('#blog-category-filters');
+    const sortSelect = document.querySelector('#blog-sort');
+    const grid = document.querySelector('#blog-post-grid');
+    const emptyState = document.querySelector('#blog-empty-state');
+
+    if (
+      !(filterContainer instanceof HTMLDivElement) ||
+      !(sortSelect instanceof HTMLSelectElement) ||
+      !(grid instanceof HTMLDivElement) ||
+      !(emptyState instanceof HTMLDivElement)
+    ) {
+      return;
+    }
+
+    const buttons = [...filterContainer.querySelectorAll('[data-blog-filter]')].filter(
+      (button) => button instanceof HTMLButtonElement,
+    );
+    const cards = [...grid.querySelectorAll('[data-blog-card]')].filter(
+      (card) => card instanceof HTMLElement,
+    );
+
+    if (buttons.length === 0 || cards.length === 0) {
+      return;
+    }
+
+    let activeCategory = 'All';
+
+    const setButtonState = () => {
+      buttons.forEach((button) => {
+        const isActive = button.dataset.blogFilter === activeCategory;
+        button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+        button.classList.toggle('text-bw-heading', isActive);
+        button.classList.toggle('text-bw-muted', !isActive);
+      });
+    };
+
+    const applyFilters = () => {
+      const sortedCards = [...cards].sort((left, right) => {
+        const leftDate = Date.parse(left.dataset.publishDate ?? '');
+        const rightDate = Date.parse(right.dataset.publishDate ?? '');
+        return sortSelect.value === 'oldest' ? leftDate - rightDate : rightDate - leftDate;
+      });
+
+      sortedCards.forEach((card) => {
+        const matchesCategory = activeCategory === 'All' || card.dataset.category === activeCategory;
+        card.hidden = !matchesCategory;
+        grid.append(card);
+      });
+
+      emptyState.classList.toggle('hidden', sortedCards.some((card) => !card.hidden));
+    };
+
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => {
+        activeCategory = button.dataset.blogFilter ?? 'All';
+        setButtonState();
+        applyFilters();
+      });
+    });
+
+    sortSelect.addEventListener('change', applyFilters);
+
+    setButtonState();
+    applyFilters();
+  })();
+</script>

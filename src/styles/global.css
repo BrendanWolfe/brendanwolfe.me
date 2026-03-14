@@ -104,3 +104,94 @@ h6 {
   font-size: 0.875rem;
   line-height: 1.25rem;
 }
+
+.bw-prose {
+  display: grid;
+  gap: 1.35rem;
+  color: var(--color-bw-body);
+  font-size: 1.05rem;
+  line-height: 1.85;
+}
+
+.bw-prose > * {
+  margin: 0;
+}
+
+.bw-prose h2,
+.bw-prose h3,
+.bw-prose h4 {
+  color: var(--color-bw-heading);
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.bw-prose h2 {
+  font-size: clamp(1.85rem, 3vw, 2.3rem);
+  line-height: 1.1;
+  margin-top: 1.4rem;
+}
+
+.bw-prose h3 {
+  font-size: clamp(1.35rem, 2vw, 1.65rem);
+  line-height: 1.2;
+  margin-top: 1rem;
+}
+
+.bw-prose p,
+.bw-prose ul,
+.bw-prose ol,
+.bw-prose pre,
+.bw-prose blockquote {
+  color: var(--color-bw-body);
+}
+
+.bw-prose ul,
+.bw-prose ol {
+  display: grid;
+  gap: 0.55rem;
+  padding-left: 1.35rem;
+}
+
+.bw-prose li + li {
+  margin-top: 0;
+}
+
+.bw-prose a {
+  color: var(--color-bw-accent-hover);
+  text-decoration-thickness: 0.09em;
+  text-underline-offset: 0.2em;
+}
+
+.bw-prose code {
+  border-radius: 0.45rem;
+  background: color-mix(in srgb, var(--color-bw-surface) 78%, transparent);
+  padding: 0.15rem 0.38rem;
+  font-size: 0.92em;
+}
+
+.bw-prose pre {
+  overflow-x: auto;
+  border-radius: 1rem;
+  border: 1px solid color-mix(in srgb, var(--color-bw-border) 75%, transparent);
+  background: color-mix(in srgb, var(--color-bw-surface) 85%, transparent);
+  padding: 1rem 1.1rem;
+  line-height: 1.65;
+}
+
+.bw-prose pre code {
+  background: transparent;
+  padding: 0;
+}
+
+.bw-prose blockquote {
+  border-left: 3px solid color-mix(in srgb, var(--color-bw-accent) 55%, transparent);
+  padding-left: 1rem;
+  color: color-mix(in srgb, var(--color-bw-body) 88%, white);
+}
+
+.bw-prose hr {
+  border: 0;
+  border-top: 1px solid color-mix(in srgb, var(--color-bw-border) 70%, transparent);
+  margin: 0.6rem 0;
+}

@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import mdx from '@astrojs/mdx';
 import { readFileSync } from 'node:fs';
 import { getAllowedDomainsFromSiteUrl, getSiteUrl } from './config/astro/config-helpers.mjs';
 
@@ -27,5 +28,5 @@ export default defineConfig({
     plugins: [tailwindcss()]
   },
 
-  integrations: [vue()]
+  integrations: [vue(), mdx()]
 });

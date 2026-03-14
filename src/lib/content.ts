@@ -1,9 +1,18 @@
+import type { ImageMetadata } from 'astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
+import { sortBlogPosts } from './blog';
+import { getBlogImage } from './blog-images';
 import { getProjectImage } from './project-images';
 import type { Project } from './project-types';
 
 type NavItem = CollectionEntry<'navItems'>['data'];
 type SiteSettings = CollectionEntry<'siteSettings'>['data'];
+export type BlogEntry = CollectionEntry<'blog'>;
+export type BlogPostCard = Omit<BlogEntry, 'data'> & {
+  data: Omit<BlogEntry['data'], 'image'> & {
+    image: ImageMetadata;
+  };
+};
 
 export async function getNavItems(): Promise<NavItem[]> {
   const items = await getCollection('navItems');
@@ -29,4 +38,23 @@ export async function getSiteSettings(): Promise<SiteSettings> {
   }
 
   return first;
+}
+
+export async function getBlogEntries(): Promise<BlogEntry[]> {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return sortBlogPosts(posts, 'newest');
+}
+
+export async function getBlogPosts(): Promise<BlogPostCard[]> {
+  const posts = await getBlogEntries();
+  return sortBlogPosts(
+    posts.map((post) => ({
+      ...post,
+      data: {
+        ...post.data,
+        image: getBlogImage(post.id, post.data.image),
+      },
+    })),
+    'newest',
+  );
 }

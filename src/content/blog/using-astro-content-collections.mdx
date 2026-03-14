@@ -1,0 +1,21 @@
+---
+title: Using Astro Content Collections
+description: A quick setup for moving blog posts into a real content collection without making the site heavier than it needs to be.
+publishDate: 2026-03-13
+category: Astro
+image: featured.png
+draft: false
+---
+
+If you know you are going to have more than a couple posts, content collections are the right move.
+
+The main benefit is not just organization. Astro gives you a schema, type safety, and a clean way to query posts for both an index page and individual routes.
+
+My version of the setup is pretty small:
+
+1. Put posts in `src/content/blog`.
+2. Define the schema in `src/content.config.ts`.
+3. Query with `getCollection('blog')`.
+4. Sort the results yourself instead of assuming the filesystem order means anything.
+
+That gets you a real content model without turning a simple blog into a CMS project.

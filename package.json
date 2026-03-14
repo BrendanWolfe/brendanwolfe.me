@@ -7,9 +7,11 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
+    "test": "vitest run",
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/mdx": "^4.3.14",
     "@astrojs/node": "^9.5.4",
     "@astrojs/vue": "^5.1.4",
     "@fontsource-variable/dm-sans": "^5.2.8",
@@ -26,6 +28,7 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.6",
     "@types/node": "^25.5.0",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.0"
   }
 }

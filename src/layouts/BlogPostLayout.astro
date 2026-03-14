@@ -1,0 +1,67 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import Layout from './Layout.astro';
+import { getSiteSettings } from '../lib/content';
+import { getBlogImage } from '../lib/blog-images';
+import { formatBlogDate } from '../lib/blog';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const siteSettings = await getSiteSettings();
+const formattedPublishDate = formatBlogDate(post.data.publishDate);
+const featuredImage = getBlogImage(post.id, post.data.image);
+---
+
+<Layout
+  title={post.data.title}
+  description={post.data.description}
+  navBrandText={siteSettings.navBrandText}
+  githubUrl={siteSettings.githubUrl}
+>
+  <article class="mx-auto flex max-w-4xl flex-col gap-8 py-10 md:gap-12 md:py-14">
+    <a
+      href="/blog"
+      class="inline-flex w-fit items-center gap-2 font-sans text-sm font-bold text-bw-sub no-underline transition-colors hover:text-bw-heading focus-visible:text-bw-heading"
+    >
+      <span aria-hidden="true">&larr;</span>
+      <span>Back to blog</span>
+    </a>
+
+    <header class="flex flex-col gap-5">
+      <div class="flex flex-wrap items-center gap-3 text-sm">
+        <span class="font-sans font-bold uppercase tracking-[0.08em] text-bw-muted">
+          {post.data.category}
+        </span>
+        <span aria-hidden="true" class="text-bw-border">/</span>
+        <time datetime={post.data.publishDate.toISOString()} class="text-bw-muted">
+          {formattedPublishDate}
+        </time>
+      </div>
+
+      <div class="flex flex-col gap-3">
+        <h1 class="max-w-3xl font-display text-5xl font-extrabold tracking-[-0.055em] text-bw-heading sm:text-6xl">
+          {post.data.title}
+        </h1>
+        <p class="max-w-2xl text-base leading-relaxed text-bw-body sm:text-lg">
+          {post.data.description}
+        </p>
+      </div>
+    </header>
+
+    <Image
+      src={featuredImage}
+      alt={`Featured image for ${post.data.title}`}
+      width={1400}
+      format="webp"
+      class="h-auto w-full rounded-2xl object-cover"
+    />
+
+    <div class="bw-prose mx-auto w-full max-w-3xl">
+      <slot />
+    </div>
+  </article>
+</Layout>
