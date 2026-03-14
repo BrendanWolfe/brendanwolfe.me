@@ -7,7 +7,6 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "test": "vitest run",
     "astro": "astro"
   },
   "dependencies": {
@@ -28,7 +27,6 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.6",
     "@types/node": "^25.5.0",
-    "typescript": "^5.9.3",
-    "vitest": "^4.1.0"
+    "typescript": "^5.9.3"
   }
 }
