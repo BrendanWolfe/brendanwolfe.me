@@ -1,10 +1,26 @@
 [
   {
-    "title": "Portfolio Site",
+    "title": "brendanwolfe.me",
     "description": "A fast, accessible personal portfolio built with Astro and Tailwind CSS.",
-    "image": "/logo-white.png",
+    "image": "/brendanwolfe.me.png",
     "tags": ["Astro", "Tailwind CSS", "Accessibility"],
     "liveUrl": "https://brendanwolfe.me",
-    "githubUrl": "https://github.com/brendanwolfe/brendanwolfe.me"
+    "githubUrl": "https://github.com/BrendanWolfe/brendanwolfe.me"
+  },
+  {
+    "title": "Highnoon.co",
+    "description": "A fast beautiful website for the digital marketing company I worked at",
+    "image": "/highnoon.co.png",
+    "tags": ["React", "Gatsby", "Prismic CMS", "CSS Modules", "BEM CSS"],
+    "liveUrl": "https://web.archive.org/web/20201101013630/https://highnoon.co/",
+    "githubUrl": null
+  },
+  {
+    "title": "AD Options",
+    "description": "An oldie but a goodie. An options wordpress plugin (like cmb2 or ACF) I made this to use as an options framework in the custom theme of our digital agency.",
+    "image": "/ad-options.png",
+    "tags": ["PHP", "WordPress", "VueJS", "SCSS", "BEM CSS"],
+    "liveUrl": null,
+    "githubUrl": "https://github.com/BrendanWolfe/ad-options"
   }
 ]
