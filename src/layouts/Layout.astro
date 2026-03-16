@@ -71,16 +71,32 @@ const analyticsEnabled = !import.meta.env.DEV && Boolean(umamiWebsiteId && umami
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
     {analyticsEnabled && (
-      <link rel="preload" href={umamiProxyScript} as="script" />
-    )}
-    {analyticsEnabled && (
       <script
         is:inline
-        defer
-        src={umamiProxyScript}
-        data-website-id={umamiWebsiteId}
-        data-host-url={umamiHostUrl}
-      ></script>
+        define:vars={{ umamiHostUrl, umamiProxyScript, umamiWebsiteId }}
+      >
+        (() => {
+          const loadAnalytics = () => {
+            if (document.querySelector('script[data-website-id]')) {
+              return;
+            }
+
+            const script = document.createElement('script');
+            script.defer = true;
+            script.src = umamiProxyScript;
+            script.dataset.websiteId = umamiWebsiteId;
+            script.dataset.hostUrl = umamiHostUrl;
+            document.head.append(script);
+          };
+
+          if ('requestIdleCallback' in window) {
+            window.requestIdleCallback(loadAnalytics, { timeout: 3000 });
+            return;
+          }
+
+          window.addEventListener('load', loadAnalytics, { once: true });
+        })();
+      </script>
     )}
     <title>{pageTitle}</title>
   </head>

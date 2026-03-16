@@ -22,7 +22,7 @@ const { contactFormEndpoint, turnstileSiteKey } = Astro.props as Props;
     </div>
 
     <ContactForm
-      client:load
+      client:visible
       formspree-endpoint={contactFormEndpoint}
       turnstile-site-key={turnstileSiteKey}
     />

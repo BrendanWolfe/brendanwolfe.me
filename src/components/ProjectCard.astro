@@ -10,18 +10,20 @@ interface Props {
   tags: string[];
   liveUrl: string | null;
   githubUrl: string | null;
+  priority?: boolean;
 }
 
-const { title, description, image, tags, liveUrl, githubUrl } = Astro.props;
+const { title, description, image, tags, liveUrl, githubUrl, priority = false } = Astro.props;
 ---
 
 <article data-project-card class="flex h-full flex-col rounded-2xl border border-bw-border bg-bw-surface p-5">
   <Image
     src={image}
     alt={`Preview of ${title}`}
-    width={720}
     format="webp"
-    densities={[1.5, 2]}
+    widths={[336, 480, 672]}
+    sizes="(min-width: 1024px) 336px, (min-width: 768px) calc(50vw - 2rem), calc(100vw - 2rem)"
+    priority={priority}
     class="mb-4 h-40 w-full rounded-lg border border-bw-border object-cover"
   />
   <h3 class="text-xl font-semibold text-bw-heading">{title}</h3>

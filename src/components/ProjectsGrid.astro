@@ -11,9 +11,9 @@ const projects = await getProjects();
   previousLabel="Previous projects"
   nextLabel="Next projects"
 >
-  {projects.map((project) => (
+  {projects.map((project, index) => (
     <div class="min-w-0 shrink-0 basis-full md:basis-[calc(50%-0.75rem)] lg:basis-[calc((100%-3rem)/3)]">
-      <ProjectCard {...project} />
+      <ProjectCard {...project} priority={index === 0} />
     </div>
   ))}
 </Carousel>
