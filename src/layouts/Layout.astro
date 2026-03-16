@@ -46,7 +46,7 @@ const umamiHostUrl = (() => {
     return '';
   }
 })();
-const hasUmami = Boolean(umamiWebsiteId && umamiHostUrl);
+const analyticsEnabled = !import.meta.env.DEV && Boolean(umamiWebsiteId && umamiHostUrl);
 ---
 
 <!doctype html>
@@ -70,10 +70,10 @@ const hasUmami = Boolean(umamiWebsiteId && umamiHostUrl);
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
-    {hasUmami && (
+    {analyticsEnabled && (
       <link rel="preload" href={umamiProxyScript} as="script" />
     )}
-    {hasUmami && (
+    {analyticsEnabled && (
       <script
         is:inline
         defer

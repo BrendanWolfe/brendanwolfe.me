@@ -6,7 +6,7 @@ export const prerender = false;
 export const GET: APIRoute = async () => {
   const { umamiScript: scriptUrl } = await getSiteSettings();
 
-  if (!scriptUrl) {
+  if (import.meta.env.DEV || !scriptUrl) {
     return new Response('// analytics disabled\n', {
       status: 200,
       headers: {
