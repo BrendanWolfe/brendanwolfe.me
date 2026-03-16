@@ -32,6 +32,12 @@ const trackClassName = ['flex flex-nowrap gap-6', trackClass].filter(Boolean).jo
 ---
 
 <div data-carousel class={rootClassName} aria-label={label} role="region">
+  <div data-carousel-viewport class={viewportClassName}>
+    <div data-carousel-track class={trackClassName}>
+      <slot />
+    </div>
+  </div>
+
   {showArrows && (
     <div class="flex items-center justify-end gap-3">
       <button
@@ -58,12 +64,6 @@ const trackClassName = ['flex flex-nowrap gap-6', trackClass].filter(Boolean).jo
       </button>
     </div>
   )}
-
-  <div data-carousel-viewport class={viewportClassName}>
-    <div data-carousel-track class={trackClassName}>
-      <slot />
-    </div>
-  </div>
 </div>
 
 <script>
