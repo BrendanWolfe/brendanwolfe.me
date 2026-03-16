@@ -1,0 +1,134 @@
+---
+interface Props {
+  label: string;
+  previousLabel?: string;
+  nextLabel?: string;
+  class?: string;
+  viewportClass?: string;
+  trackClass?: string;
+  showArrows?: boolean;
+}
+
+const {
+  label,
+  previousLabel = `Previous ${label}`,
+  nextLabel = `Next ${label}`,
+  class: className = '',
+  viewportClass = '',
+  trackClass = '',
+  showArrows = true,
+} = Astro.props;
+
+const rootClassName = ['space-y-5', className].filter(Boolean).join(' ');
+const viewportClassName = [
+  'overflow-x-auto',
+  'pb-2',
+  '[-ms-overflow-style:none]',
+  '[scrollbar-width:none]',
+  '[&::-webkit-scrollbar]:hidden',
+  viewportClass,
+].filter(Boolean).join(' ');
+const trackClassName = ['flex flex-nowrap gap-6', trackClass].filter(Boolean).join(' ');
+---
+
+<div data-carousel class={rootClassName} aria-label={label} role="region">
+  {showArrows && (
+    <div class="flex items-center justify-end gap-3">
+      <button
+        type="button"
+        data-carousel-prev
+        class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-bw-border bg-bw-surface text-bw-heading transition-colors hover:border-bw-accent hover:text-bw-accent disabled:cursor-not-allowed disabled:opacity-45 disabled:hover:border-bw-border disabled:hover:text-bw-heading"
+        aria-label={previousLabel}
+        disabled
+      >
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M15 18L9 12L15 6"></path>
+        </svg>
+      </button>
+      <button
+        type="button"
+        data-carousel-next
+        class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-bw-border bg-bw-surface text-bw-heading transition-colors hover:border-bw-accent hover:text-bw-accent disabled:cursor-not-allowed disabled:opacity-45 disabled:hover:border-bw-border disabled:hover:text-bw-heading"
+        aria-label={nextLabel}
+        disabled
+      >
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M9 18L15 12L9 6"></path>
+        </svg>
+      </button>
+    </div>
+  )}
+
+  <div data-carousel-viewport class={viewportClassName}>
+    <div data-carousel-track class={trackClassName}>
+      <slot />
+    </div>
+  </div>
+</div>
+
+<script>
+  import EmblaCarousel from 'embla-carousel';
+
+  const carouselRoots = document.querySelectorAll('[data-carousel]');
+
+  for (const root of carouselRoots) {
+    if (!(root instanceof HTMLElement) || root.dataset.carouselReady === 'true') {
+      continue;
+    }
+
+    const viewport = root.querySelector('[data-carousel-viewport]');
+    const previousButton = root.querySelector('[data-carousel-prev]');
+    const nextButton = root.querySelector('[data-carousel-next]');
+
+    if (!(viewport instanceof HTMLElement)) {
+      continue;
+    }
+
+    try {
+      const embla = EmblaCarousel(viewport, {
+        align: 'start',
+        containScroll: 'trimSnaps',
+        dragFree: false,
+        loop: true,
+        skipSnaps: false,
+      });
+
+      const updateControls = () => {
+        if (previousButton instanceof HTMLButtonElement) {
+          previousButton.disabled = !embla.canScrollPrev();
+        }
+
+        if (nextButton instanceof HTMLButtonElement) {
+          nextButton.disabled = !embla.canScrollNext();
+        }
+      };
+
+      previousButton?.addEventListener('click', () => embla.scrollPrev());
+      nextButton?.addEventListener('click', () => embla.scrollNext());
+
+      embla.on('init', updateControls);
+      embla.on('reInit', updateControls);
+      embla.on('select', updateControls);
+
+      root.dataset.carouselReady = 'true';
+      updateControls();
+
+      window.addEventListener(
+        'pagehide',
+        () => {
+          embla.destroy();
+        },
+        { once: true }
+      );
+    } catch (error) {
+      console.error('Failed to initialize carousel', error);
+    }
+  }
+</script>
+
+<style>
+  [data-carousel-ready='true'] [data-carousel-viewport] {
+    overflow: hidden;
+    padding-bottom: 0;
+  }
+</style>

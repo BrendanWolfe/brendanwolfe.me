@@ -18,6 +18,7 @@
     "@tailwindcss/vite": "^4.2.1",
     "@vee-validate/valibot": "^4.15.1",
     "astro": "^5.17.1",
+    "embla-carousel": "^8.6.0",
     "tailwindcss": "^4.2.1",
     "valibot": "^1.1.0",
     "vee-validate": "^4.15.1",
