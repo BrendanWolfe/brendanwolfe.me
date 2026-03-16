@@ -43,20 +43,3 @@ The Turnstile secret is managed in Formspree, not in this app.
 - `umamiWebsiteId`
 
 Umami is loaded via `/stats.js`, with `data-website-id` and `data-host-url` set from `site-settings.json` in the `<head>` script tag.
-
-### Netlify
-
-- Build command: `npm run build`
-- Publish directory: `dist/client` (for fully static deployments only)
-
-### Vercel
-
-- Framework preset: Astro
-- Build command: `npm run build`
-- Output directory: `dist/client` (for fully static deployments only)
-
-### Cloudflare Pages
-
-- Build command: `npm run build`
-- Build output directory: `dist/client` (for fully static deployments only)
-- Node compatibility: enable if your project integrations require it
