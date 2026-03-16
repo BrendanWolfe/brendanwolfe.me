@@ -1,15 +1,15 @@
 [
   {
     "title": "Portfolio",
-    "description": "A fast, accessible personal portfolio built with Astro and Tailwind CSS.",
+    "description": "A fast static personal portfolio",
     "image": "brendanwolfe.me.png",
-    "tags": ["Astro", "Tailwind CSS", "Accessibility"],
+    "tags": ["Astro", "Vue", "Tailwind CSS"],
     "liveUrl": "https://brendanwolfe.me",
     "githubUrl": "https://github.com/BrendanWolfe/brendanwolfe.me"
   },
   {
     "title": "Highnoon",
-    "description": "A fast beautiful website for the digital marketing company I worked at",
+    "description": "A beautiful static website for a digital marketing company, with awesome SVG animations exported from after effects.",
     "image": "highnoon.co.png",
     "tags": ["React", "Gatsby", "Prismic CMS", "CSS Modules", "Lottie"],
     "liveUrl": "https://web.archive.org/web/20200925223459/https://highnoon.co/",
@@ -22,5 +22,13 @@
     "tags": ["PHP", "WordPress", "GSAP", "CSS Animations"],
     "liveUrl": "https://web.archive.org/web/20220123221935/https://mediaalpha.com/",
     "githubUrl": null
+  },
+  {
+    "title": "Jacuzzi",
+    "description": "This is an HTML email I created for a quick contract job a while back. Was fun playing with the tables",
+    "image": "jacuzzi.png",
+    "tags": ["Email", "HTML", "CSS"],
+    "liveUrl": "https://brendanwolfe.github.io/jacuzzi/",
+    "githubUrl": "https://github.com/BrendanWolfe/jacuzzi"
   }
 ]
