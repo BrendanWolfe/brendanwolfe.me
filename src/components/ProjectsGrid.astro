@@ -1,12 +1,19 @@
 ---
 import ProjectCard from './ProjectCard.astro';
+import Carousel from './ui/Carousel.astro';
 import { getProjects } from '../lib/content';
 
 const projects = await getProjects();
 ---
 
-<div class="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
+<Carousel
+  label="Projects carousel"
+  previousLabel="Previous projects"
+  nextLabel="Next projects"
+>
   {projects.map((project) => (
-    <ProjectCard {...project} />
+    <div class="min-w-0 shrink-0 basis-full md:basis-[calc(50%-0.75rem)] lg:basis-[calc((100%-3rem)/3)]">
+      <ProjectCard {...project} />
+    </div>
   ))}
-</div>
+</Carousel>
