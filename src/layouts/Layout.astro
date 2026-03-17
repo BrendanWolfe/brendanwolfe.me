@@ -73,6 +73,7 @@ const analyticsEnabled = !import.meta.env.DEV && Boolean(umamiWebsiteId && umami
     <Font cssVariable="--font-dm" preload />
     <Font cssVariable="--font-instrument" preload />
     {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+    <link rel="sitemap" href="/sitemap-index.xml" />
     {analyticsEnabled && (
       <script
         is:inline

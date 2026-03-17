@@ -3,9 +3,9 @@ import { defineConfig, fontProviders } from 'astro/config';
 import { readFileSync } from 'node:fs';
 import { getAllowedDomainsFromSiteUrl, getSiteUrl } from './config/astro/config-helpers.mjs';
 
+import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 import node from '@astrojs/node';
-
 import vue from '@astrojs/vue';
 
 const siteSettings = JSON.parse(readFileSync(new URL('./src/content/site-settings.json', import.meta.url), 'utf8'));
@@ -45,5 +45,5 @@ export default defineConfig({
     plugins: [tailwindcss()]
   },
 
-  integrations: [vue()]
+  integrations: [sitemap(), vue()]
 });
