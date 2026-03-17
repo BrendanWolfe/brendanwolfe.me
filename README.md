@@ -2,22 +2,6 @@
 
 Personal portfolio site built with Astro.
 
-## Commands
-
-| Command | Action |
-| :--- | :--- |
-| `npm install` | Install dependencies |
-| `npm run dev` | Start local development server |
-| `npm run build` | Build static output to `dist/` |
-| `npm run preview` | Preview production build locally |
-| `npm run astro -- --help` | Show Astro CLI help |
-
-## Deployment
-
-1. Install dependencies with `npm ci` (or `npm install`).
-2. Build the site with `npm run build`.
-3. Run the Astro Node entrypoint (`node dist/server/entry.mjs`) in your container/host.
-
 ## Contact Form Setup
 
 The contact form submits directly to Formspree from the browser and stays on-page by posting with `fetch` and `Accept: application/json`.
