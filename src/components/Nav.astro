@@ -18,12 +18,12 @@ interface Props {
 
 const items = (await getNavItems()) as NavItem[];
 const { navBrandText, githubUrl } = Astro.props as Props;
-const textLinkClass = 'font-sans text-base font-bold text-bw-sub no-underline transition-colors hover:text-bw-heading focus-visible:text-bw-heading';
+const textLinkClass = 'font-header text-base font-bold text-bw-sub no-underline transition-colors hover:text-bw-heading focus-visible:text-bw-heading';
 ---
 
 <header class="sticky top-0 z-40 border-b border-bw-border/90 bg-bw-surface/85 backdrop-blur">
   <div class="mx-auto flex min-h-17 w-full max-w-6xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8 max-[40rem]:min-h-[4.4rem] max-[40rem]:py-2.5">
-    <a class="font-sans text-[1.2rem] font-extrabold tracking-[0.03em] text-bw-heading no-underline" href="/">{navBrandText}</a>
+    <a class="font-header text-[1.2rem] font-extrabold tracking-[0.03em] text-bw-heading no-underline" href="/">{navBrandText}</a>
     <button
       id="mobile-menu-trigger"
       type="button"
@@ -102,14 +102,14 @@ const textLinkClass = 'font-sans text-base font-bold text-bw-sub no-underline tr
             <li>
               {isExternal ? (
                 <ExternalLink
-                  class="mobile-nav-link font-sans text-[clamp(2.5rem,9vw,3.5rem)] leading-[0.98] font-extrabold tracking-[-0.035em] text-bw-heading no-underline transition-colors hover:text-bw-accent focus-visible:text-bw-accent"
+                  class="mobile-nav-link font-header text-[clamp(2.5rem,9vw,3.5rem)] leading-[0.98] font-extrabold tracking-[-0.035em] text-bw-heading no-underline transition-colors hover:text-bw-accent focus-visible:text-bw-accent"
                   href={item.href}
                 >
                   {item.label}
                 </ExternalLink>
               ) : (
                 <a
-                  class="mobile-nav-link font-sans text-[clamp(2.5rem,9vw,3.5rem)] leading-[0.98] font-extrabold tracking-[-0.035em] text-bw-heading no-underline transition-colors hover:text-bw-accent focus-visible:text-bw-accent"
+                  class="mobile-nav-link font-header text-[clamp(2.5rem,9vw,3.5rem)] leading-[0.98] font-extrabold tracking-[-0.035em] text-bw-heading no-underline transition-colors hover:text-bw-accent focus-visible:text-bw-accent"
                   href={item.href}
                 >
                   {item.label}
@@ -120,7 +120,7 @@ const textLinkClass = 'font-sans text-base font-bold text-bw-sub no-underline tr
         })}
         <li>
           <ExternalLink
-            class="mobile-nav-link font-sans text-[clamp(2.5rem,9vw,3.5rem)] leading-[0.98] font-extrabold tracking-[-0.035em] text-bw-heading no-underline transition-colors hover:text-bw-accent focus-visible:text-bw-accent"
+            class="mobile-nav-link font-header text-[clamp(2.5rem,9vw,3.5rem)] leading-[0.98] font-extrabold tracking-[-0.035em] text-bw-heading no-underline transition-colors hover:text-bw-accent focus-visible:text-bw-accent"
             href={githubUrl}
             umamiEvent="github-link-click"
             umamiEventData={{ location: 'nav-mobile' }}
