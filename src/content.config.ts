@@ -44,8 +44,8 @@ const projects = defineCollection({
     description: z.string(),
     image: z.string(),
     tags: z.array(z.string()),
-    liveUrl: z.string().url().nullable(),
-    githubUrl: z.string().url().nullable(),
+    liveUrl: z.url().nullable(),
+    githubUrl: z.url().nullable(),
   }),
 });
 
@@ -54,13 +54,13 @@ const siteSettings = defineCollection({
     parser: (text) => [{ id: 'site-settings', ...JSON.parse(text) }],
   }),
   schema: z.object({
-    siteUrl: z.string().url(),
+    siteUrl: z.url(),
     resumeUrl: z.string(),
     navBrandText: z.string(),
-    githubUrl: z.string().url(),
-    contactFormEndpoint: z.string().url(),
+    githubUrl: z.url(),
+    contactFormEndpoint: z.url(),
     turnstileSiteKey: z.string(),
-    umamiScript: z.string().url(),
+    umamiScript: z.url(),
     umamiWebsiteId: z.string(),
   }),
 });
