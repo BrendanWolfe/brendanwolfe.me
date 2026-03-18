@@ -76,6 +76,8 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64
           tags: ${{ steps.tags.outputs.tags }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Trigger main Dokploy deploy webhook
         if: ${{ success() && github.ref_name == 'main' && env.DOKPLOY_WEBHOOK_URL != '' }}
